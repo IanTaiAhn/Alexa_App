@@ -5,13 +5,8 @@ import java.util.Scanner;
 public class ChatBotMain {
 
     public static void main(String[] args) {
-        // perhaps give an option to provide a list of questions available for testing..
-        Scanner scnr = new Scanner(System.in);
         System.out.println("Welcome to the dumb chat bot extravaganza");
-        System.out.println("Ask a question!");
-
+        System.out.println("Type 'commands' to get started with the chatbot!");
         ChatBotQuestions.Questions();
-//        System.out.println(sTest);
-
     }
 }

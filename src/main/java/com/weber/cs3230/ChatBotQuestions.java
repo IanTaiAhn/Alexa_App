@@ -11,6 +11,7 @@ public class ChatBotQuestions {
     public static void Questions()   {
         // have a bunch of questions, and have this method called.
         // if the typed string doesn't match, then we call this question again.
+
         String string;
         Scanner scnr = new Scanner(System.in);
         string = scnr.nextLine();
@@ -48,19 +49,32 @@ public class ChatBotQuestions {
                 ChatBotQuestions.Questions();
             }   else if (string.equals("exit")) {
                 exitLoop = false;
-                System.out.println("Dum dum Chatbot powering down");
+                System.out.println("Dum dum Chatbot powering down...");
+            }   else if (string.equals("commands"))    {
+                ChatBotCommands.Commands();
+                ChatBotQuestions.Questions();
+            }   else if (string.equals("list")) {
+                ChatBotQuestions.QuestionList();
+                ChatBotQuestions.Questions();
             }
             else {
-                System.out.println("I don't know this questions, ask another one");
+                System.out.println("I don't know about this one, ask another?");
                 ChatBotQuestions.Questions();
             }
         }
     }
 
-    public static String QuestionList(String string)   {
-        // lists all available questions.
-
-        return null;
-    }
-
+    public static void QuestionList()   {
+        // lists all available questions..
+            System.out.println("What is the correct pull altitude?");
+            System.out.println("What is a slider?");
+            System.out.println("What altitude do you lock-on at?");
+            System.out.println("Why is skydiving fun?");
+            System.out.println("What is your decision altitude?");
+            System.out.println("When do you panic?");
+            System.out.println("What is the most important part in a skydive?");
+            System.out.println("What altitude do you drop at?");
+            System.out.println("What are the maximum winds you can jump at?");
+            System.out.println("How do you regain stability during free fall?");
+        }
 }
