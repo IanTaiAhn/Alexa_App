@@ -3,19 +3,15 @@ package com.weber.cs3230;
 import java.util.Scanner;
 
 /**
- *  List of all the questions the dopey chat bot knows.
+ *  Loops through the questions the chatbot knows, and has 3 other commands it knows.
  */
 public class ChatBotQuestions {
     static boolean exitLoop = true;
-
     public static void Questions()   {
-        // have a bunch of questions, and have this method called.
-        // if the typed string doesn't match, then we call this question again.
-
         String string;
         Scanner scnr = new Scanner(System.in);
         string = scnr.nextLine();
-//        System.out.println(string + " whut ?");
+
         while (exitLoop) {
             if (string.equals("What is the correct pull altitude?")) {
                 System.out.println("5500");

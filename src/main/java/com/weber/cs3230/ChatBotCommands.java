@@ -1,5 +1,8 @@
 package com.weber.cs3230;
 
+/**
+ * Lists all available commands the chatbot can perform.
+ */
 public class ChatBotCommands {
 
     public static void Commands()   {
