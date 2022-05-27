@@ -1,35 +1,30 @@
 package com.weber.cs3230;
 
-public enum AlexaIntent implements GenerateAnswers{
-    QUESTION_1("What is the correct pull altitude?");
-//    QUESTION_2("What is a slider?"),
-//    QUESTION_3("What altitude do you lock-on at?"),
-//    QUESTION_4("Why is skydiving fun?"),
-//    QUESTION_5("What is your decision altitude?"),
-//    QUESTION_6("When do you panic?"),
-//    QUESTION_7("What is the most important part in a skydive?"),
-//    QUESTION_8("What altitude do you drop at?"),
-//    QUESTION_9("What are the maximum winds you can jump at?"),
-//    QUESTION_10("How do you regain stability during free fall?");
+public enum AlexaIntent  {
+    // not the actual question, and not the actual answer.
+    // we can switch the names later, but lets develop in ints.
+    // TODO switch the intentName variable once testing is complete.
+    QUESTION_1("1", new Question1()),
+    QUESTION_2("2", new Question2()),
+    QUESTION_3("3", new Question3()),
+    QUESTION_4("4", new Question4()),
+    QUESTION_5("5", new Question5()),
+    QUESTION_6("6", new Question6()),
+    QUESTION_7("7", new Question7()),
+    QUESTION_8("8", new Question8()),
+    QUESTION_9("9", new Question9()),
+    QUESTION_10("10", new Question10());
 
     private final String intentName;
-    private Question1 q1;
-    private GenerateAnswers answers;
+    private final AnswerGenerator answerGenerator;
 
-
-
-    AlexaIntent(String intentName) {
+    AlexaIntent(String intentName, AnswerGenerator answerGenerator) {
         this.intentName = intentName;
-//        this.answers = answers;
+        this.answerGenerator = answerGenerator;
     }
 
-//    AlexaIntent(GenerateAnswers answers) {
-//        this.answers = answers;
-//    }
-
-    public GenerateAnswers getAnswers() {
-//        System.out.println(q1.answers());
-        return answers;
+    public AnswerGenerator getAnswerGenerator() {
+        return answerGenerator;
     }
 
     public static AlexaIntent getIntentFromString(String intentString) {
@@ -39,11 +34,5 @@ public enum AlexaIntent implements GenerateAnswers{
             }
         }
         return null;
-    }
-
-
-    @Override
-    public String answers() {
-        return "What am I doing";
     }
 }
