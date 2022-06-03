@@ -1,19 +1,16 @@
 package com.weber.cs3230;
 
 public enum AlexaIntent  {
-    // not the actual question, and not the actual answer.
-    // we can switch the names later, but lets develop in ints.
-    // TODO switch the intentName variable once testing is complete.
-    QUESTION_1("1", new Question1()),
-    QUESTION_2("2", new Question2()),
-    QUESTION_3("3", new Question3()),
-    QUESTION_4("4", new Question4()),
-    QUESTION_5("5", new Question5()),
-    QUESTION_6("6", new Question6()),
-    QUESTION_7("7", new Question7()),
-    QUESTION_8("8", new Question8()),
-    QUESTION_9("9", new Question9()),
-    QUESTION_10("10", new Question10());
+    QUESTION_1("PullAltitude", new PullAltitude()),
+    QUESTION_2("SkydivingGear", new SkydivingGear()),
+    QUESTION_3("CircleOfAwareness", new CircleOfAwareness()),
+    QUESTION_4("SkydivingRush", new SkydivingRush()),
+    QUESTION_5("DecisionAltitude", new DecisionAltitude()),
+    QUESTION_6("StayCalm", new StayCalm()),
+    QUESTION_7("ParamountPartOfSkydiving", new ParamountPartOfSkydiving()),
+    QUESTION_8("Jumprun", new Jumprun()),
+    QUESTION_9("WindsAloft", new WindsAloft()),
+    QUESTION_10("Freefall", new Freefall());
 
     private final String intentName;
     private final AnswerGenerator answerGenerator;
