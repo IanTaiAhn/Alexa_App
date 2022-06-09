@@ -1,16 +1,16 @@
 package com.weber.cs3230;
 
 public enum AlexaIntent  {
-    QUESTION_1("PullAltitude", new PullAltitude()),
-    QUESTION_2("SkydivingGear", new SkydivingGear()),
-    QUESTION_3("CircleOfAwareness", new CircleOfAwareness()),
-    QUESTION_4("SkydivingRush", new SkydivingRush()),
-    QUESTION_5("DecisionAltitude", new DecisionAltitude()),
-    QUESTION_6("StayCalm", new StayCalm()),
-    QUESTION_7("ParamountPartOfSkydiving", new ParamountPartOfSkydiving()),
-    QUESTION_8("Jumprun", new Jumprun()),
-    QUESTION_9("WindsAloft", new WindsAloft()),
-    QUESTION_10("Freefall", new Freefall());
+    PULL_ALTITUDE("PullAltitude", new PullAltitude()),
+    SKYDIVING_GEAR("SkydivingGear", new SkydivingGear()),
+    CIRCLE_OF_AWARENESS("CircleOfAwareness", new CircleOfAwareness()),
+    SKYDIVING_RUSH("SkydivingRush", new SkydivingRush()),
+    DECISION_ALTITUDE("DecisionAltitude", new DecisionAltitude()),
+    STAY_CALM("StayCalm", new StayCalm()),
+    PARAMOUNT_PART_OF_SKYDIVING("ParamountPartOfSkydiving", new ParamountPartOfSkydiving()),
+    JUMP_RUN("Jumprun", new Jumprun()),
+    WINDS_ALOFT("WindsAloft", new WindsAloft()),
+    FREEFALL("Freefall", new Freefall());
 
     private final String intentName;
     private final AnswerGenerator answerGenerator;
