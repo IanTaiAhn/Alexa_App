@@ -1,5 +1,10 @@
 package com.weber.cs3230;
 
+import com.weber.cs3230.generators.*;
+
+import java.util.Arrays;
+import java.util.function.Predicate;
+
 public enum AlexaIntent  {
     PULL_ALTITUDE("PullAltitude", new PullAltitude()),
     SKYDIVING_GEAR("SkydivingGear", new SkydivingGear()),
@@ -25,11 +30,11 @@ public enum AlexaIntent  {
     }
 
     public static AlexaIntent getIntentFromString(String intentString) {
-        for (AlexaIntent alexaIntent : AlexaIntent.values()) {
-            if (alexaIntent.intentName.equalsIgnoreCase(intentString)) {
-                return alexaIntent;
-            }
-        }
-        return null;
+        // this returns an object! ahaaha
+        return Arrays.stream(AlexaIntent.values())
+                .filter(s -> s.intentName.equalsIgnoreCase(intentString))
+                .findFirst()
+                .orElse(null);
+        // got it!
     }
 }

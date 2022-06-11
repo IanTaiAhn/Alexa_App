@@ -1,6 +1,5 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SkydivingGear extends QuestionVariable {

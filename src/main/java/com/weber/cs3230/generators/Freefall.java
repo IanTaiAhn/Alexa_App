@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class Freefall extends AnswerGenerator{
+public class Freefall extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("Push your hips forwards, and arch.");

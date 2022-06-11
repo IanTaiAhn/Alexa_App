@@ -1,4 +1,4 @@
-package com.weber.cs3230;
+package com.weber.cs3230.chatbot;
 
 /**
  * Main class where the program begins, and the method that activates the chatbot is called.

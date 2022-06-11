@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class Jumprun extends AnswerGenerator{
+public class Jumprun extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("13000");

@@ -1,5 +1,6 @@
-package com.weber.cs3230;
-public class WindsAloft extends AnswerGenerator{
+package com.weber.cs3230.generators;
+
+public class WindsAloft extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("Depending on the wind direction, 15mph.");

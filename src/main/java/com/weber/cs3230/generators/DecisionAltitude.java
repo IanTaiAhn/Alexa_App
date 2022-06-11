@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class DecisionAltitude extends AnswerGenerator{
+public class DecisionAltitude extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("It's safer to pull before 2500.");

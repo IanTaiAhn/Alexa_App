@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class CircleOfAwareness extends AnswerGenerator{
+public class CircleOfAwareness extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("6000");

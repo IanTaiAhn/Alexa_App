@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class ParamountPartOfSkydiving extends AnswerGenerator{
+public class ParamountPartOfSkydiving extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("Pull");

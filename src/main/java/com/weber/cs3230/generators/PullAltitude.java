@@ -1,6 +1,6 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
-public class PullAltitude extends AnswerGenerator{
+public class PullAltitude extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("5500");

@@ -1,4 +1,4 @@
-package com.weber.cs3230;
+package com.weber.cs3230.generators;
 
 import java.util.ArrayList;
 import java.util.Collections;

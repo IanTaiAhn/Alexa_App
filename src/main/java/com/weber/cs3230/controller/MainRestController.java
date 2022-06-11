@@ -9,16 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MainRestController {
-
-    private final AlexaIntentHandler alexaIntentHandler;
-
     @Autowired
-    public MainRestController(AlexaIntentHandler alexaIntentHandler) {
-        this.alexaIntentHandler = alexaIntentHandler;
+    public MainRestController() {
     }
-
-    @RequestMapping("/answer/{intentString}")
-    public Answer getAnswerForIntent(@PathVariable String intentString) {
-        return alexaIntentHandler.handleIntent(intentString);
+    // replaces getAnswerForIntent
+    @RequestMapping("/health")
+    public String healthCheck() {
+        return "up and running";
     }
 }

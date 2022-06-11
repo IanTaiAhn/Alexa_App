@@ -1,5 +1,6 @@
-package com.weber.cs3230;
-public class StayCalm extends AnswerGenerator{
+package com.weber.cs3230.generators;
+
+public class StayCalm extends AnswerGenerator {
     @Override
     void addStrings() {
         answerListA.add("Never, always stay calm.");

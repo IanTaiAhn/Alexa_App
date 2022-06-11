@@ -1,10 +1,9 @@
 package com.weber.cs3230;
 
 import com.weber.cs3230.dto.Answer;
+import com.weber.cs3230.generators.AnswerGenerator;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.ArrayList;
 
 @Component
 public class AlexaIntentHandler {

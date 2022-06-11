@@ -1,4 +1,4 @@
-package com.weber.cs3230;
+package com.weber.cs3230.chatbot;
 
 import java.util.*;
 
