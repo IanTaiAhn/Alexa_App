@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class HandlerSpeechlet implements SpeechletV2 {
 
     private final AlexaIntentHandler alexaIntentHandler;
-    private final AlexaUtils alexaUtils = new AlexaUtils("text");
+    private final AlexaUtils alexaUtils = new AlexaUtils("Is there anything else you'd like to ask me?");
 
     @Autowired
     public HandlerSpeechlet(AlexaIntentHandler alexaIntentHandler) {
@@ -24,16 +24,16 @@ public class HandlerSpeechlet implements SpeechletV2 {
 
     @Override
     public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
-        return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), "title", "text");
+        return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), "Launching...", "Welcome to skybot");
     }
 
     @Override
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
         Answer answer = alexaIntentHandler.handleIntent(requestEnvelope.getRequest().getIntent().getName());
         if (answer == null)    {
-            return alexaUtils.getUnrecognizedResponse(requestEnvelope.getSession(), "title", "text");
+            return alexaUtils.getUnrecognizedResponse(requestEnvelope.getSession(), "Failed to recognize", "I don't understand what you're asking me.");
         }
-        return alexaUtils.getNormalResponse(requestEnvelope.getSession(), "title", "text");
+        return alexaUtils.getNormalResponse(requestEnvelope.getSession(), "Skyboy says...", answer.getText());
     }
 
     @Override

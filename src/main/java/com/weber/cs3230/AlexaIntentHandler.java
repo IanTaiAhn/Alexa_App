@@ -11,6 +11,9 @@ public class AlexaIntentHandler {
     public Answer handleIntent(@PathVariable String intentString) {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
          AnswerGenerator answerGenerator = intent.getAnswerGenerator();
+         if (intent == null)    {
+             return null;
+         }
          return new Answer(answerGenerator.getAnswerText());
     }
 }
