@@ -17,9 +17,10 @@ public class MainRestController {
     @RequestMapping("/health")
     public String healthCheck() {
         // do metrics recroder in here
-//        MetricRecorder metricRecorder = new MetricRecorder();
-//        metricRecorder.saveMetric("Jumprun");
-//        metricRecorder.
+        MetricRecorder metricRecorder = new MetricRecorder();
+        metricRecorder.saveMetric("Jumprun");
+        // Here I dont know if I'm actually returning a metric with a populated metric id.
+        // I'm terrible with debuggers, and I wasn't able to determine if this was the case.
         return "up and running";
     }
 }

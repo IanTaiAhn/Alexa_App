@@ -6,8 +6,8 @@ import org.springframework.http.HttpMethod;
 
 public class MetricRecorder {
 
-    private HttpCommunicator httpCommunicator = new HttpCommunicator();
-    private Metric metric = new Metric();
+    private final HttpCommunicator httpCommunicator = new HttpCommunicator();
+    private final Metric metric = new Metric();
     final String json = new Gson().toJson(metric);
 
     // makes metric object
@@ -15,12 +15,7 @@ public class MetricRecorder {
     public void saveMetric(String eventName)   {
         metric.setEventName(eventName);
         metric.setAppName("Skybot");
-    // pass the HTTPCommunicator what it needs...
-//        HttpCommunicator httpCommunicator = new HttpCommunicator();
-        httpCommunicator.communicate(HttpMethod.POST, "http://localhost:8080", json, metric.getClass());
-
-        // metric.class gives me the class definition
-        // calls it metrics.class
-        // post, url , json
+        // I'm not sure if this is what is needed to communicate with HTTPCommunicator. I don't know if i'm saving metric data or not.
+        httpCommunicator.communicate(HttpMethod.POST, "https://alexa-knows-skydiving.herokuapp.com/metric", json, metric.getClass());
     }
 }

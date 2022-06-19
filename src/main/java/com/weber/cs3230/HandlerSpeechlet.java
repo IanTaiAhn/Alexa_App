@@ -33,7 +33,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
         if (answer == null)    {
             return alexaUtils.getUnrecognizedResponse(requestEnvelope.getSession(), "Failed to recognize", "I don't understand what you're asking me.");
         }
-        return alexaUtils.getNormalResponse(requestEnvelope.getSession(), "Skyboy says...", answer.getText());
+        return alexaUtils.getNormalResponse(requestEnvelope.getSession(), "Skybot says...", answer.getText());
     }
 
     @Override

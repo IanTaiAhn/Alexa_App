@@ -11,11 +11,11 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpCommunicator<T> {
 
-    public <T> T communicate(HttpMethod method, String urlString) {
-        return communicate(method, urlString, null, null);
+    public T communicate(HttpMethod method, String urlString, Class<T> clazz) {
+        return communicate(method, urlString, null, clazz);
     }
 
-    public <T> T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
+    public T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
         try {
             final boolean hasPayload = payload != null && payload.trim().length() > 0;
             final URL url = new URL(urlString);
@@ -44,7 +44,6 @@ public class HttpCommunicator<T> {
             }
 
             final String response = inputStreamToString(inputStream);
-            //TODO parse this into a generic type
             return new Gson().fromJson(payload, clazz);
 //            return response;
         } catch (Exception e) {
