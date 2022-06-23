@@ -15,6 +15,10 @@ public class HttpCommunicator<T> {
         return communicate(method, urlString, null, clazz);
     }
 
+    // set up breakpoint, and figure out what the payload is!
+    // this is your time to figure out how to debug crap haha
+    // new Throwable().printStackTrace();
+    // use that statement to help debug!
     public T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
         try {
             final boolean hasPayload = payload != null && payload.trim().length() > 0;
