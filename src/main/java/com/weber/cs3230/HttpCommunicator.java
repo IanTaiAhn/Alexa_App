@@ -14,11 +14,6 @@ public class HttpCommunicator<T> {
     public T communicate(HttpMethod method, String urlString, Class<T> clazz) {
         return communicate(method, urlString, null, clazz);
     }
-
-    // set up breakpoint, and figure out what the payload is!
-    // this is your time to figure out how to debug crap haha
-    // new Throwable().printStackTrace();
-    // use that statement to help debug!
     public T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
         try {
             final boolean hasPayload = payload != null && payload.trim().length() > 0;
@@ -49,7 +44,6 @@ public class HttpCommunicator<T> {
 
             final String response = inputStreamToString(inputStream);
             return new Gson().fromJson(response, clazz);
-//            return response;
         } catch (Exception e) {
             throw new RuntimeException("Failed to run communication for " + urlString + " " + method, e);
         }

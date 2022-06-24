@@ -1,9 +1,17 @@
 package com.weber.cs3230;
 
 public class NoAvailableAnswerException extends Exception{
+    private AlexaIntent alexaIntent;
 
-    // takes in an AlexaIntent object in constructor,
-    // create getter to AlexaIntent
+    public NoAvailableAnswerException(AlexaIntent alexaIntent) {
+        this.alexaIntent = alexaIntent;
+    }
 
+    public NoAvailableAnswerException() {
 
+    }
+
+    public AlexaIntent getAlexaIntent() {
+        return alexaIntent;
+    }
 }

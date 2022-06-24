@@ -12,21 +12,17 @@ public class MetricRecorder {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public void saveMetric(String eventName)   {
-        Metric metric = new Metric();
-        String json = new Gson().toJson(metric);
-        metric.setEventName(eventName);
-        metric.setAppName("Skybot");
+        try {
+            Metric metric = new Metric();
+            metric.setEventName(eventName);
+            metric.setAppName("Skybot");
+            String json = new Gson().toJson(metric);
+            log.info("MetricID: " + metric.getMetricID());
 
-        // My json string wasn't working, so I hardcoded the paylod in assignment 6,
-        // I go to David's api, my remote, and local api, and I still don't know where the "metrics" are....
-        // Using a hardcoded payload, I'm able to get a statusCode = 200 (good), and goodReponseCode = true
-        // This is good, but as stated idk where the heck that Metric data is.
-        httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", "{\"appName\": \"daves_alexa_app\", \"eventName\": \"intent_received|oneofyourintentnames\"}", Metric.class);
-
-        // This line of code uses the convert Metric into json, and the debugger says that
-        // the payload = "{"metricID":0}"
-        // The statusCode = 500, and the goodResponseCode = false.
-//        httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
-
+            Metric metricRecorder = (Metric) httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
+            System.out.println("breakpoint");
+        } catch (Exception e)   {
+            log.error("exception has been caught... app still runs tho! " + e);
+        }
     }
 }

@@ -24,7 +24,7 @@ public class MainRestController {
         // do metrics recroder in here
         MetricRecorder metricRecorder = new MetricRecorder();
         metricRecorder.saveMetric("Jumprun");
-        log.info("well loooky here");
+        log.info("Health Check Success!");
         // Here I dont know if I'm actually returning a metric with a populated metric id.
         // I'm terrible with debuggers, and I wasn't able to determine if this was the case.
         return "up and running";

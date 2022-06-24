@@ -20,6 +20,10 @@ public enum AlexaIntent  {
     private final String intentName;
     private final AnswerGenerator answerGenerator;
 
+    public String getIntentName() {
+        return intentName;
+    }
+
     AlexaIntent(String intentName, AnswerGenerator answerGenerator) {
         this.intentName = intentName;
         this.answerGenerator = answerGenerator;
@@ -30,11 +34,9 @@ public enum AlexaIntent  {
     }
 
     public static AlexaIntent getIntentFromString(String intentString) {
-        // this returns an object! ahaaha
         return Arrays.stream(AlexaIntent.values())
                 .filter(s -> s.intentName.equalsIgnoreCase(intentString))
                 .findFirst()
                 .orElse(null);
-        // got it!
     }
 }
