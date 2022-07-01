@@ -41,10 +41,10 @@ public class HandlerSpeechlet implements SpeechletV2 {
             log.info("onIntent did something good I believe..");
             return alexaUtils.getNormalResponse(requestEnvelope.getSession(), "Skybot says...", answer.getText());
         } catch (NoAvailableAnswerException e)  {
-            log.error("error message: " + e.getAlexaIntent());
+            log.error("error message: ", e.getAlexaIntent());
             return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), "Launch failed differently", "Skybot won't boot...");
         } catch (Exception e)  {
-            log.error("error message: " + e);
+            log.error("error message: ", e);
             return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), "Launch failed", "Something terribly wrong has occurred");
         }
     }

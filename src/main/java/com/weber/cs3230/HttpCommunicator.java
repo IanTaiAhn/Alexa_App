@@ -9,12 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class HttpCommunicator<T> {
+public class HttpCommunicator {
 
-    public T communicate(HttpMethod method, String urlString, Class<T> clazz) {
+    public <T> T communicate(HttpMethod method, String urlString, Class<T> clazz) {
         return communicate(method, urlString, null, clazz);
     }
-    public T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
+    public <T> T communicate(HttpMethod method, String urlString, String payload, Class<T> clazz) {
         try {
             final boolean hasPayload = payload != null && payload.trim().length() > 0;
             final URL url = new URL(urlString);

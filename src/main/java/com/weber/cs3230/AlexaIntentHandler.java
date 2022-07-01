@@ -14,9 +14,10 @@ public class AlexaIntentHandler {
 
     public Answer handleIntent(@PathVariable String intentString) throws NoAvailableAnswerException {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
+        log.info("intentString that gets passed in: " + intentString);
+        log.info("AlexaIntent Enum: " + intent);
          AnswerGenerator answerGenerator = intent.getAnswerGenerator();
-         log.info("intentString that gets passed in: " + intentString);
-         log.info("AlexaIntent Enum: " + intent);
+
          if (intent == null)    {
              return null;
          }

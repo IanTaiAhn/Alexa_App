@@ -19,10 +19,10 @@ public class MetricRecorder {
             String json = new Gson().toJson(metric);
             log.info("MetricID: " + metric.getMetricID());
 
-            Metric metricRecorder = (Metric) httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
+            Metric metricRecorder =  httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
             System.out.println("breakpoint");
         } catch (Exception e)   {
-            log.error("exception has been caught... app still runs tho! " + e);
+            log.error("exception has been caught... app still runs tho! ", e);
         }
     }
 }
