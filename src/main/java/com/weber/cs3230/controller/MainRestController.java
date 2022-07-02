@@ -15,7 +15,6 @@ public class MainRestController {
     @Autowired
     public MainRestController() {
     }
-    // replaces getAnswerForIntent
     @RequestMapping("/health")
     public String healthCheck() {
         MetricRecorder metricRecorder = new MetricRecorder();

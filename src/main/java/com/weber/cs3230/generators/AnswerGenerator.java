@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// I don't think I need this class anymore...
 public abstract class AnswerGenerator {
 
     public List<String> answerListA = new ArrayList<>();

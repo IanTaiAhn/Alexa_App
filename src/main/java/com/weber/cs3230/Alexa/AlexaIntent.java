@@ -1,7 +1,5 @@
 package com.weber.cs3230.Alexa;
 
-import com.weber.cs3230.generators.*;
-
 import java.util.Arrays;
 
 public enum AlexaIntent  {

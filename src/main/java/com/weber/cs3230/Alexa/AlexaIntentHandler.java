@@ -2,7 +2,6 @@ package com.weber.cs3230.Alexa;
 
 import com.weber.cs3230.NoAvailableAnswerException;
 import com.weber.cs3230.dto.Answer;
-import com.weber.cs3230.generators.AnswerGenerator;
 import com.weber.cs3230.generators.DBAnswerGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

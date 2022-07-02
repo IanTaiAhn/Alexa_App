@@ -1,11 +1,11 @@
-package com.weber.cs3230.Alexa;
+package com.weber.cs3230;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-@ComponentScan("com.weber.cs3230.HandlerSpeechlet")
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class AlexaServiceApplication {
 
     public static void main(String[] args) {
