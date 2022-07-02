@@ -1,6 +1,7 @@
-package com.weber.cs3230;
+package com.weber.cs3230.Alexa;
 
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
+import com.weber.cs3230.HandlerSpeechlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,6 @@ public class AlexaConfig {
     public AlexaConfig(HandlerSpeechlet handlerSpeechlet) {
         this.handlerSpeechlet = handlerSpeechlet;
     }
-
     @Bean
     public ServletRegistrationBean<SpeechletServlet> registerSpeechletServlet() {
         SpeechletServlet speechletServlet = new SpeechletServlet();

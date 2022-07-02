@@ -1,4 +1,4 @@
-package com.weber.cs3230;
+package com.weber.cs3230.Alexa;
 
 import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;

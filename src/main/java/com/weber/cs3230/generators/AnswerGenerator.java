@@ -1,6 +1,5 @@
 package com.weber.cs3230.generators;
 
-import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.NoAvailableAnswerException;
 
 import java.util.ArrayList;
