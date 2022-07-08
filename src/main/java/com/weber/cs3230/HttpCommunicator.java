@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.http.HttpMethod;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

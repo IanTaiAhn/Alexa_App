@@ -24,12 +24,9 @@ public class AlexaIntentHandler {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
         log.info("intentString that gets passed in: " + intentString);
         log.info("AlexaIntent Enum: " + intent);
-//         AnswerGenerator answerGenerator = intent.getAnswerGenerator();
-//        DBAnswerGenerator dbAnswerGenerator = new DBAnswerGenerator();
          if (intent == null)    {
              return null;
          }
-//         return new Answer(answerGenerator.getAnswerText());
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }
 }

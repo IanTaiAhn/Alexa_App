@@ -22,7 +22,6 @@ public class DBAnswerGenerator {
     private List<String> list;
     private String lastStr;
     private boolean first = false;
-//    private String lastStr;
     public String getAnswerText(String intentString) throws NoAvailableAnswerException {
         list = alexaDAO.getAnswersForIntent(intentString);
         if (list.size() == 0) {

@@ -15,7 +15,6 @@ public enum AlexaIntent  {
     FREEFALL("Freefall");
 
     private final String intentName;
-//    private final AnswerGenerator answerGenerator;
 
     public String getIntentName() {
         return intentName;
@@ -23,12 +22,7 @@ public enum AlexaIntent  {
 
     AlexaIntent(String intentName) {
         this.intentName = intentName;
-//        this.answerGenerator = answerGenerator;
     }
-
-//    public AnswerGenerator getAnswerGenerator() {
-//        return answerGenerator;
-//    }
 
     public static AlexaIntent getIntentFromString(String intentString) {
         return Arrays.stream(AlexaIntent.values())
