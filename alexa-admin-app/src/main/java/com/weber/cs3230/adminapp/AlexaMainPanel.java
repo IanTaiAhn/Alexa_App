@@ -15,7 +15,7 @@ public class AlexaMainPanel extends JPanel{
     private List<AlexaIntent> list = new ArrayList<>();
     private DefaultTableModel model;
 
-    private ArrayList forNowList = new ArrayList();
+//    private ArrayList forNowList = new ArrayList();
     public AlexaMainPanel() {
         // Order matters !
         populateTable();
@@ -61,7 +61,7 @@ public class AlexaMainPanel extends JPanel{
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
 
-                AlexaIntent intent = new AlexaIntent(count++, saveIntent.getText(), formattedDateTime, forNowList);
+                AlexaIntent intent = new AlexaIntent(count++, saveIntent.getText(), formattedDateTime, new ArrayList());
                 list.add(intent);
                 model.setDataVector(getTableData(), columnNames);
                 addDialog.dispose();
@@ -85,8 +85,6 @@ public class AlexaMainPanel extends JPanel{
 
             editBut.addActionListener(e -> {
                 if (table.getSelectedRow() > -1) {
-                    System.out.println(table.getSelectedRow());
-
                     JDialog addDialog = new JDialog();
                     JPanel addPanel = new JPanel(new GridLayout(2, 2));
                     JTextField saveIntent = new JTextField();
@@ -104,17 +102,11 @@ public class AlexaMainPanel extends JPanel{
                     });
                     intentBut.addActionListener(y -> {
                         // create a new dialog that allows the adding, and editing of intent answers.
-                        // TODO Figure stuff out
-                        //i think i pass in the array list from the AlexaIntent, so that I can connect them..
-                        System.out.println(table.getSelectedRow());
                         JDialog answerDialog = new AnswersDialog(list.get(table.getSelectedRow()).getIntentAnswerList());
-
-
                     });
                     cancelBut.addActionListener(t -> {
                         addDialog.dispose();
                         addDialog.setVisible(false);
-                        System.out.println("working");
                     });
 
                     addPanel.add(new JLabel("IntentName"));
@@ -124,7 +116,7 @@ public class AlexaMainPanel extends JPanel{
                     addPanel.add(intentBut);
                     addPanel.setVisible(true);
 
-                    addDialog.setSize(new Dimension(300, 200));
+                    addDialog.setSize(new Dimension(500, 300));
                     addDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                     addDialog.add(addPanel);
                 }

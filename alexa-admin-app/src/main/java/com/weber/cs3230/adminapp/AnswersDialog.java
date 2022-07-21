@@ -38,10 +38,7 @@ public class AnswersDialog extends JDialog {
         scrollPane.setVisible(true);
 
         //TODO delete once we've added intent answers in AlexaMainPanel<populateTable..
-        answersList.add("seomt1");
-        answersList.add("seomt2");
-        answersList.add("seomt3");
-        answersList.add("seomt4");
+
 
         model.setDataVector(getTableData(), columnNames);
         return scrollPane;
@@ -54,16 +51,26 @@ public class AnswersDialog extends JDialog {
         JTextField editAnswerText = new JTextField("", 10);
         JButton addBut = new JButton("Add");
         JButton editBut = new JButton("Edit");
+        JButton deleteBut = new JButton("Delete");
 //        JButton exitBut = new JButton("Exit");
 
         addBut.addActionListener(e -> {
             addIntentAnswer(answerText);
             model.setDataVector(getTableData(), columnNames);
+            answerText.setText("");
         });
         editBut.addActionListener(e -> {
             if (table.getSelectedRow() > -1)    {
             answersList.set(table.getSelectedRow(), editAnswerText.getText());
             model.setDataVector(getTableData(), columnNames);
+            editAnswerText.setText("");
+            }
+        });
+        deleteBut.addActionListener(u -> {
+            if (table.getSelectedRow() > -1)    {
+//                answersList.set(table.getSelectedRow(), editAnswerText.getText());
+                answersList.remove(table.getSelectedRow());
+                model.setDataVector(getTableData(), columnNames);
             }
         });
 
@@ -73,7 +80,7 @@ public class AnswersDialog extends JDialog {
         editAnswerText.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
         panel.add(editAnswerText);
         panel.add(editBut);
-//        panel.add(exitBut);
+        panel.add(deleteBut);
         return panel;
     }
 
