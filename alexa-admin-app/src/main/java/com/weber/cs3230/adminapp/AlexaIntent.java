@@ -1,19 +1,22 @@
 package com.weber.cs3230.adminapp;
 
-public class AlexaIntentObject {
+import java.util.ArrayList;
+
+public class AlexaIntent {
 
     private long ID;
     private String intentName;
     private String dateAdded;
 
-    public void setIntentName(String intentName) {
-        this.intentName = intentName;
-    }
+    private ArrayList intentAnswers;
 
-    public AlexaIntentObject(long ID, String intentName, String dateAdded) {
+
+
+    public AlexaIntent(long ID, String intentName, String dateAdded, ArrayList intentAnswers) {
         this.ID = ID;
         this.intentName = intentName;
         this.dateAdded = dateAdded;
+        this.intentAnswers = intentAnswers;
     }
 
     public long getID() {
@@ -26,5 +29,13 @@ public class AlexaIntentObject {
 
     public String getDateAdded() {
         return dateAdded;
+    }
+    public ArrayList getIntentAnswerList() {
+        return intentAnswers;
+    }
+
+
+    public void setIntentName(String intentName) {
+        this.intentName = intentName;
     }
 }

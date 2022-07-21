@@ -10,10 +10,12 @@ import java.util.List;
 
 public class AlexaMainPanel extends JPanel{
     private long count = 10;
-    JTable table;
+    private JTable table;
     private final String[] columnNames = {"ID", "Intent Names", "Date Added"};
-    List<AlexaIntentObject> list = new ArrayList<>();
-    DefaultTableModel model;
+    private List<AlexaIntent> list = new ArrayList<>();
+    private DefaultTableModel model;
+
+    private ArrayList forNowList = new ArrayList();
     public AlexaMainPanel() {
         // Order matters !
         populateTable();
@@ -59,7 +61,7 @@ public class AlexaMainPanel extends JPanel{
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
 
-                AlexaIntentObject intent = new AlexaIntentObject(count++, saveIntent.getText(), formattedDateTime);
+                AlexaIntent intent = new AlexaIntent(count++, saveIntent.getText(), formattedDateTime, forNowList);
                 list.add(intent);
                 model.setDataVector(getTableData(), columnNames);
                 addDialog.dispose();
@@ -69,6 +71,7 @@ public class AlexaMainPanel extends JPanel{
                 addDialog.dispose();
                 addDialog.setVisible(false);
             });
+
             addPanel.add(new JLabel("IntentName"));
             addPanel.add(saveIntent);
             addPanel.add(saveBut);
@@ -79,22 +82,34 @@ public class AlexaMainPanel extends JPanel{
             addDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             addDialog.add(addPanel);
         });
+
             editBut.addActionListener(e -> {
                 if (table.getSelectedRow() > -1) {
+                    System.out.println(table.getSelectedRow());
+
                     JDialog addDialog = new JDialog();
                     JPanel addPanel = new JPanel(new GridLayout(2, 2));
                     JTextField saveIntent = new JTextField();
 
                     JButton saveBut = new JButton("Save");
                     JButton cancelBut = new JButton("Cancel");
+                    JButton intentBut = new JButton("Answers");
 
                     addDialog.setVisible(true);
                     saveBut.addActionListener(r -> {
-
                         list.get(table.getSelectedRow()).setIntentName(saveIntent.getText());
                         model.setDataVector(getTableData(), columnNames);
                         addDialog.dispose();
                         addDialog.setVisible(false);
+                    });
+                    intentBut.addActionListener(y -> {
+                        // create a new dialog that allows the adding, and editing of intent answers.
+                        // TODO Figure stuff out
+                        //i think i pass in the array list from the AlexaIntent, so that I can connect them..
+                        System.out.println(table.getSelectedRow());
+                        JDialog answerDialog = new AnswersDialog(list.get(table.getSelectedRow()).getIntentAnswerList());
+
+
                     });
                     cancelBut.addActionListener(t -> {
                         addDialog.dispose();
@@ -106,6 +121,7 @@ public class AlexaMainPanel extends JPanel{
                     addPanel.add(saveIntent);
                     addPanel.add(saveBut);
                     addPanel.add(cancelBut);
+                    addPanel.add(intentBut);
                     addPanel.setVisible(true);
 
                     addDialog.setSize(new Dimension(300, 200));
@@ -113,13 +129,14 @@ public class AlexaMainPanel extends JPanel{
                     addDialog.add(addPanel);
                 }
             });
+
             deleteBut.addActionListener(e -> {
                 if (table.isRowSelected(table.getSelectedRow())) {
-                    System.out.println(list.size());
                     list.remove(table.getSelectedRow());
                     model.setDataVector(getTableData(), columnNames);
                 }
             });
+
         buttons.add(addBut);
         buttons.add(editBut);
         buttons.add(deleteBut);
@@ -128,7 +145,7 @@ public class AlexaMainPanel extends JPanel{
 
     private Object[][] getTableData() {
         java.util.List<Object[]> rows = new ArrayList<>();
-        for (AlexaIntentObject el : list)   {
+        for (AlexaIntent el : list)   {
             Object[] row = new Object[3];
             row[0] = el.getID();
             row[1] = el.getIntentName();
@@ -142,16 +159,19 @@ public class AlexaMainPanel extends JPanel{
         LocalDateTime currentLocalDateTime = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
-        AlexaIntentObject intent0 = new AlexaIntentObject(0, "PullAltitude", formattedDateTime);
-        AlexaIntentObject intent1 = new AlexaIntentObject(1, "SkydivingGear", formattedDateTime);
-        AlexaIntentObject intent2 = new AlexaIntentObject(2, "CircleOfAwareness", formattedDateTime);
-        AlexaIntentObject intent3 = new AlexaIntentObject(3, "SkydivingRush", formattedDateTime);
-        AlexaIntentObject intent4 = new AlexaIntentObject(4, "DecisionAltitude", formattedDateTime);
-        AlexaIntentObject intent5 = new AlexaIntentObject(5, "StayCalm", formattedDateTime);
-        AlexaIntentObject intent6 = new AlexaIntentObject(6, "ParamountPartOfSkydiving", formattedDateTime);
-        AlexaIntentObject intent7 = new AlexaIntentObject(7, "Jumprun", formattedDateTime);
-        AlexaIntentObject intent8 = new AlexaIntentObject(8, "WindsAloft", formattedDateTime);
-        AlexaIntentObject intent9 = new AlexaIntentObject(9, "Freefall", formattedDateTime);
+        // pretty sure i'll need to give each alexaintent its own array list, or else all of them will change.
+
+        // TODO create method that adds intent answers to array list.
+        AlexaIntent intent0 = new AlexaIntent(0, "PullAltitude", formattedDateTime, new ArrayList());
+        AlexaIntent intent1 = new AlexaIntent(1, "SkydivingGear", formattedDateTime, new ArrayList());
+        AlexaIntent intent2 = new AlexaIntent(2, "CircleOfAwareness", formattedDateTime, new ArrayList());
+        AlexaIntent intent3 = new AlexaIntent(3, "SkydivingRush", formattedDateTime, new ArrayList());
+        AlexaIntent intent4 = new AlexaIntent(4, "DecisionAltitude", formattedDateTime, new ArrayList());
+        AlexaIntent intent5 = new AlexaIntent(5, "StayCalm", formattedDateTime, new ArrayList());
+        AlexaIntent intent6 = new AlexaIntent(6, "ParamountPartOfSkydiving", formattedDateTime, new ArrayList());
+        AlexaIntent intent7 = new AlexaIntent(7, "Jumprun", formattedDateTime, new ArrayList());
+        AlexaIntent intent8 = new AlexaIntent(8, "WindsAloft", formattedDateTime, new ArrayList());
+        AlexaIntent intent9 = new AlexaIntent(9, "Freefall", formattedDateTime, new ArrayList());
 
         list.add(intent0);
         list.add(intent1);
