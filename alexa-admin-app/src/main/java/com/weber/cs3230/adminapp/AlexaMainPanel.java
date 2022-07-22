@@ -48,6 +48,7 @@ public class AlexaMainPanel extends JPanel{
         JButton deleteBut = new JButton("Delete");
 
         addBut.addActionListener(e -> {
+            LockoutCheck.lastButClick = System.currentTimeMillis();
             JDialog addDialog = new JDialog();
             JPanel addPanel = new JPanel(new GridLayout(2, 2));
             JTextField saveIntent = new JTextField();
@@ -84,6 +85,7 @@ public class AlexaMainPanel extends JPanel{
         });
 
             editBut.addActionListener(e -> {
+                LockoutCheck.lastButClick = System.currentTimeMillis();
                 if (table.getSelectedRow() > -1) {
                     JDialog addDialog = new JDialog();
                     JPanel addPanel = new JPanel(new GridLayout(2, 2));
@@ -123,6 +125,7 @@ public class AlexaMainPanel extends JPanel{
             });
 
             deleteBut.addActionListener(e -> {
+                LockoutCheck.lastButClick = System.currentTimeMillis();
                 if (table.isRowSelected(table.getSelectedRow())) {
                     list.remove(table.getSelectedRow());
                     model.setDataVector(getTableData(), columnNames);

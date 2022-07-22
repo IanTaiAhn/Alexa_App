@@ -1,5 +1,6 @@
 package com.weber.cs3230.controller;
 
+import com.weber.cs3230.ExecutorThread;
 import com.weber.cs3230.MetricRecorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,9 @@ public class MainRestController {
     public MainRestController() {
     }
     @RequestMapping("/health")
-    public String healthCheck() {
-        MetricRecorder metricRecorder = new MetricRecorder();
-        metricRecorder.saveMetric("Jumprun");
+    public String healthCheck() throws InterruptedException {
+        ExecutorThread executorThread = new ExecutorThread();
+        executorThread.submitMetricAsync();
         log.info("Health Check Success!");
         return "up and running";
     }

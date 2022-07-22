@@ -37,9 +37,6 @@ public class AnswersDialog extends JDialog {
         table.setFillsViewportHeight(true);
         scrollPane.setVisible(true);
 
-        //TODO delete once we've added intent answers in AlexaMainPanel<populateTable..
-
-
         model.setDataVector(getTableData(), columnNames);
         return scrollPane;
     }

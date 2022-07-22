@@ -31,9 +31,18 @@ public class AlexaDialog extends JDialog {
         dialogPanel.add(passString);
         dialogPanel.add(loginButton);
         loginButton.addActionListener(e -> {
-            if (loginString.getText().equals("butter") && new String(passString.getPassword()).equals("pass"))   {
+            if (loginString.getText().equals("butter") && new String(passString.getPassword()).equals("pass")) {
+                LockoutCheck lockoutCheck = new LockoutCheck();
+//                Thread thread = new Thread();
+                lockoutCheck.startLockoutThread();
+                // make lockoutCheck thread sleep for in 30 second intervals. make it check every 30 seconds.
                 setVisible(false);
                 dispose();
+                //Thread thread = new Thread() -> sout("test");
+                //Thread.sleep(1000)
+//                LockoutCheckout.methodthatwatchsforlockout
+                //
+                // create that where we have our add/edit/del buttons
             }
             else {
                 JOptionPane warning = new JOptionPane();
