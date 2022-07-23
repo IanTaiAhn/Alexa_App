@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AlexaMainFrame extends JFrame{
-
     public AlexaMainFrame() throws HeadlessException {
         showMainFrame();
     }

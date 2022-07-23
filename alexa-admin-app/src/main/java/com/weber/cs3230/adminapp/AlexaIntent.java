@@ -7,10 +7,7 @@ public class AlexaIntent {
     private long ID;
     private String intentName;
     private String dateAdded;
-
     private ArrayList intentAnswers;
-
-
 
     public AlexaIntent(long ID, String intentName, String dateAdded, ArrayList intentAnswers) {
         this.ID = ID;
@@ -33,7 +30,6 @@ public class AlexaIntent {
     public ArrayList getIntentAnswerList() {
         return intentAnswers;
     }
-
 
     public void setIntentName(String intentName) {
         this.intentName = intentName;

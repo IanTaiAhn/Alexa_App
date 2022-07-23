@@ -15,7 +15,6 @@ public class AlexaMainPanel extends JPanel{
     private List<AlexaIntent> list = new ArrayList<>();
     private DefaultTableModel model;
 
-//    private ArrayList forNowList = new ArrayList();
     public AlexaMainPanel() {
         // Order matters !
         populateTable();
@@ -40,7 +39,6 @@ public class AlexaMainPanel extends JPanel{
         scrollPane.setVisible(true);
         return scrollPane;
     }
-    // Come back, refactor, and clean it up.
     private JPanel createButtonPanel()  {
         JPanel buttons = new JPanel(new GridLayout());
         JButton addBut = new JButton("Add");
@@ -154,8 +152,6 @@ public class AlexaMainPanel extends JPanel{
         LocalDateTime currentLocalDateTime = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
-        // pretty sure i'll need to give each alexaintent its own array list, or else all of them will change.
-
         // TODO create method that adds intent answers to array list.
         AlexaIntent intent0 = new AlexaIntent(0, "PullAltitude", formattedDateTime, new ArrayList());
         AlexaIntent intent1 = new AlexaIntent(1, "SkydivingGear", formattedDateTime, new ArrayList());

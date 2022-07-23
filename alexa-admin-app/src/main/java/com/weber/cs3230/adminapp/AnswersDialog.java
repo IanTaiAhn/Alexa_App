@@ -49,7 +49,6 @@ public class AnswersDialog extends JDialog {
         JButton addBut = new JButton("Add");
         JButton editBut = new JButton("Edit");
         JButton deleteBut = new JButton("Delete");
-//        JButton exitBut = new JButton("Exit");
 
         addBut.addActionListener(e -> {
             addIntentAnswer(answerText);
@@ -65,7 +64,6 @@ public class AnswersDialog extends JDialog {
         });
         deleteBut.addActionListener(u -> {
             if (table.getSelectedRow() > -1)    {
-//                answersList.set(table.getSelectedRow(), editAnswerText.getText());
                 answersList.remove(table.getSelectedRow());
                 model.setDataVector(getTableData(), columnNames);
             }
@@ -92,7 +90,6 @@ public class AnswersDialog extends JDialog {
     }
 
     private void addIntentAnswer(JTextField text)   {
-        // adds a string to the list.
         answersList.add(text.getText());
     }
 }
