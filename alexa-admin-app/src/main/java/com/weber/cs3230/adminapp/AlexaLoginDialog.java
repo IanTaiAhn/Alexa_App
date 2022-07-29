@@ -35,15 +35,16 @@ public class AlexaLoginDialog extends JDialog {
         dialogPanel.add(loginButton);
         loginButton.addActionListener(e -> {
             // Do swing worker in here
+
             ApiClient apiClient = new ApiClient();
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            SwingWorker<String, Boolean> swingWorker = new SwingWorker<String, Boolean>() {
-
+            SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
                 @Override
                 protected String doInBackground() throws Exception {
-                    Thread.sleep(2000); // Sleeps thread for 5 secs after pressing login button.
-//                    if (loginString.getText().equals("user") && new String(passString.getPassword()).equals("pass")) {
-                    if (apiClient.validateCreds(loginString.getText(), passString.getPassword().toString())) {
+                    Thread.sleep(1000); // Sleeps thread for 1 secs after pressing login button. To see the cirlce spin
+                    String user =  loginString.getText();
+                    String pass =  new String(passString.getPassword());
+                    if (apiClient.validateCreds(user, pass)) {
                         LockoutCheck lockoutCheck = new LockoutCheck();
                         lockoutCheck.startLockoutThread();
                         setVisible(false);
@@ -53,22 +54,14 @@ public class AlexaLoginDialog extends JDialog {
                         JOptionPane warning = new JOptionPane();
                         JOptionPane.showMessageDialog(warning, "Incorrect Credentials");
                     }
-                    return "successful login";
+                    return null;
                 }
 
                 @Override
                 protected void done() {
                     setCursor(Cursor.getDefaultCursor());
-                    try {
-                        System.out.println(get());
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (ExecutionException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     super.done();
                 }
-
             };
             swingWorker.execute();
 

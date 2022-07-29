@@ -16,7 +16,7 @@ public class LockoutCheck {
         }).start();
     }
     private void checkForLockout() throws InterruptedException {
-        System.out.println("Thread checked");
+//        System.out.println("Thread checked");
         while (true) {
             Thread.sleep(30000);
 //            System.out.println("Slept for 30 seconds");

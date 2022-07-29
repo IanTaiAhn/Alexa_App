@@ -2,10 +2,36 @@ package com.weber.cs3230.adminapp.api;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 public class ApiClient {
 
     private final HttpCommunicator httpCommunicator = new HttpCommunicator();
     private final String baseUrl = "http://localhost:8080";
+
+    // test with main method for this here i think.
+    public static void main(String[] args)  {
+        ApiClient apiClient = new ApiClient();
+        // test apiClient methods here.
+
+        //intentID's start at 45, and ends at 54
+        for (IntentDetail el : apiClient.getIntents().getIntents())  {
+            System.out.println("IntentID: " + el.getIntentID());
+            System.out.println("IntentName: " + el.getName());
+            System.out.println("dateadded: " + el.getDateAdded());
+        }
+
+        System.out.println();
+
+        for (IntentAnswer el : apiClient.getAnswers(46).getAnswers())  {
+            System.out.println("AnswerID: " + el.getAnswerID());
+            System.out.println("IntentID: " + el.getIntentID());
+            System.out.println("IntentDesc: " + el.getText());
+            System.out.println("dateadded: " + el.getDateAdded());
+        }
+//        System.out.println(apiClient.getAnswers());
+//        System.out.println(apiClient.getIntents().getIntents().get(1).getName());
+    }
 
     public boolean validateCreds(String username, String password) {
         try {

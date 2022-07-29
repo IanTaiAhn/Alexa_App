@@ -1,5 +1,8 @@
 package com.weber.cs3230.adminapp;
 
+import com.weber.cs3230.adminapp.api.ApiClient;
+import com.weber.cs3230.adminapp.api.IntentAnswer;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -9,11 +12,13 @@ import java.util.List;
 public class AnswersDialog extends JDialog {
     private DefaultTableModel model;
     private JTable table;
-    private List<String> answersList;
+    private List<IntentAnswer> answersList;
+    private long alexaIntentID;
     private final String[] columnNames = {"Intent Answers"};
 
-    public AnswersDialog(ArrayList list) {
+    public AnswersDialog(List list, long alexaId) {
         this.answersList = list;
+        this.alexaIntentID = alexaId;
         setPreferredSize(new Dimension(600, 400));
         setModalityType(ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -43,7 +48,7 @@ public class AnswersDialog extends JDialog {
 
     private JPanel butPanel()   {
         JPanel panel = new JPanel();
-
+        ApiClient apiClient = new ApiClient();
         JTextField answerText = new JTextField("", 10);
         JTextField editAnswerText = new JTextField("", 10);
         JButton addBut = new JButton("Add");
@@ -51,13 +56,34 @@ public class AnswersDialog extends JDialog {
         JButton deleteBut = new JButton("Delete");
 
         addBut.addActionListener(e -> {
-            addIntentAnswer(answerText);
-            model.setDataVector(getTableData(), columnNames);
-            answerText.setText("");
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                @Override
+                protected Object doInBackground() throws Exception {
+//                    System.out.println("before " + answersList.size());
+                    IntentAnswer newAnswer = new IntentAnswer();
+                    newAnswer.setIntentID(alexaIntentID);
+                    newAnswer.setText(answerText.getText());
+                    apiClient.saveNewAnswer(alexaIntentID, answerText.getText());
+                    answersList.add(newAnswer);
+//                    System.out.println("after " + answersList.size());
+                    return null;
+                }
+                @Override
+                protected void done() {
+                    setCursor(Cursor.getDefaultCursor());
+                    answerText.setText("");
+                    model.setDataVector(getTableData(), columnNames);
+                    super.done();
+                }
+            };
+            swingWorker.execute();
+
+
         });
         editBut.addActionListener(e -> {
             if (table.getSelectedRow() > -1)    {
-            answersList.set(table.getSelectedRow(), editAnswerText.getText());
+//            answersList.set(table.getSelectedRow(), editAnswerText.getText());
             model.setDataVector(getTableData(), columnNames);
             editAnswerText.setText("");
             }
@@ -81,15 +107,16 @@ public class AnswersDialog extends JDialog {
 
     private Object[][] getTableData() {
         java.util.List<Object[]> rows = new ArrayList<>();
-        for (String el : answersList)   {
+        for (IntentAnswer el : answersList)   {
             Object[] row = new Object[1];
-            row[0] = el;
+            row[0] = el.getText();
             rows.add(row);
         }
         return rows.toArray(new Object[0][0]);
     }
 
-    private void addIntentAnswer(JTextField text)   {
-        answersList.add(text.getText());
-    }
+//    private void addIntentAnswer(JTextField text)   {
+//        answersList.add(text.getText());
+//    }
 }
+
