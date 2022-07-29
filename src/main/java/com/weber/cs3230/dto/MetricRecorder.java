@@ -1,13 +1,9 @@
-package com.weber.cs3230;
+package com.weber.cs3230.dto;
 
 import com.google.gson.Gson;
-import com.weber.cs3230.dto.Metric;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MetricRecorder {
     private final HttpCommunicator httpCommunicator = new HttpCommunicator();
@@ -20,6 +16,7 @@ public class MetricRecorder {
             metric.setAppName("Skybot");
             String json = new Gson().toJson(metric);
 
+            // ask about string method?
             Metric metricRecorder =  httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
             log.info("MetricID: " + metric.getMetricID());
 

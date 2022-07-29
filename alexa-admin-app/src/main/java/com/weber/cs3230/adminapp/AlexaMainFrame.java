@@ -8,7 +8,8 @@ public class AlexaMainFrame extends JFrame{
         showMainFrame();
     }
     private void showMainFrame() {
-        AlexaDialog dialog = new AlexaDialog();
+        AlexaLoginDialog dialog = new AlexaLoginDialog();
+        // load in all of the data i want.
         setPreferredSize(new Dimension(480, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(new AlexaMainPanel());

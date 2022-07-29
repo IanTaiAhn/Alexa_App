@@ -1,5 +1,7 @@
 package com.weber.cs3230;
 
+import com.weber.cs3230.dto.MetricRecorder;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

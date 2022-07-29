@@ -1,4 +1,4 @@
-package com.weber.cs3230;
+package com.weber.cs3230.dto;
 
 import com.google.gson.Gson;
 import org.springframework.http.HttpMethod;
