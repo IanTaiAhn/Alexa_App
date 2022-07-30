@@ -18,7 +18,7 @@ public class MetricRecorder {
 
             // ask about string method?
             Metric metricRecorder =  httpCommunicator.communicate(HttpMethod.POST, "https://alexa-ghost.herokuapp.com/metric", json, Metric.class);
-            log.info("MetricID: " + metric.getMetricID());
+            log.info("MetricRecorded: " + metric.getMetricID());
 
         } catch (Exception e)   {
             log.error("exception has been caught... app still runs tho! ", e);

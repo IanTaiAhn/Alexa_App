@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlexaIntent {
-
     private long ID;
     private String intentName;
     private String dateAdded;

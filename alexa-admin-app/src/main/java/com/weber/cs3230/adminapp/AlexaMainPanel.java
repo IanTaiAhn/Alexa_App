@@ -1,6 +1,7 @@
 package com.weber.cs3230.adminapp;
 
 import com.weber.cs3230.adminapp.api.ApiClient;
+import com.weber.cs3230.adminapp.api.IntentAnswer;
 import com.weber.cs3230.adminapp.api.IntentDetail;
 
 import javax.swing.*;
@@ -21,7 +22,6 @@ public class AlexaMainPanel extends JPanel{
     public AlexaMainPanel() {
         // Order matters !
         populateTable();
-
         add(createTitle(), BorderLayout.NORTH);
         add(createTablePanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
@@ -34,7 +34,6 @@ public class AlexaMainPanel extends JPanel{
         label.setFont(f1);
         return label;
     }
-
         private JComponent createTablePanel() {
         model = new DefaultTableModel(getTableData(), columnNames);
         table = new JTable(model);
@@ -44,6 +43,7 @@ public class AlexaMainPanel extends JPanel{
         return scrollPane;
     }
     private JPanel createButtonPanel()  {
+        ApiClient apiClient = new ApiClient();
         JPanel buttons = new JPanel(new GridLayout());
         JButton addBut = new JButton("Add");
         JButton editBut = new JButton("Edit");
@@ -64,11 +64,25 @@ public class AlexaMainPanel extends JPanel{
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
 
-                AlexaIntent intent = new AlexaIntent(count++, saveIntent.getText(), formattedDateTime, new ArrayList());
-                list.add(intent);
-                model.setDataVector(getTableData(), columnNames);
-                addDialog.dispose();
-                addDialog.setVisible(false);
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        long alexaIntentID = apiClient.saveNewIntent(saveIntent.getText()).getIntentID();
+                        AlexaIntent intent = new AlexaIntent(alexaIntentID, saveIntent.getText(), formattedDateTime, apiClient.getAnswers(alexaIntentID).getAnswers());
+                        list.add(intent);
+                        return null;
+                    }
+                    @Override
+                    protected void done() {
+                        setCursor(Cursor.getDefaultCursor());
+                        model.setDataVector(getTableData(), columnNames);
+                        addDialog.dispose();
+                        addDialog.setVisible(false);
+                        super.done();
+                    }
+                };
+                swingWorker.execute();
             });
             cancelBut.addActionListener(t -> {
                 addDialog.dispose();
@@ -97,24 +111,35 @@ public class AlexaMainPanel extends JPanel{
                     JButton cancelBut = new JButton("Cancel");
                     JButton intentBut = new JButton("Answers");
 
-                    System.out.println(list.size());
-                    System.out.println(list.get(table.getSelectedRow()).getID());
                     addDialog.setVisible(true);
                     saveBut.addActionListener(r -> {
-                        list.get(table.getSelectedRow()).setIntentName(saveIntent.getText());
-                        model.setDataVector(getTableData(), columnNames);
-                        addDialog.dispose();
-                        addDialog.setVisible(false);
+                        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                            @Override
+                            protected Object doInBackground() throws Exception {
+                                apiClient.updateIntent(apiClient.getIntents().getIntents().get(table.getSelectedRow()).getIntentID(), saveIntent.getText());
+                                list.get(table.getSelectedRow()).setIntentName(saveIntent.getText());
+                                list.set(table.getSelectedRow(), list.get(table.getSelectedRow()));
+                                return null;
+                            }
+                            @Override
+                            protected void done() {
+                                setCursor(Cursor.getDefaultCursor());
+                                model.setDataVector(getTableData(), columnNames);
+                                addDialog.dispose();
+                                addDialog.setVisible(false);
+                                super.done();
+                            }
+                        };
+                        swingWorker.execute();
                     });
                     intentBut.addActionListener(y -> {
-                        // create a new dialog that allows the adding, and editing of intent answers.
                         JDialog answerDialog = new AnswersDialog(list.get(table.getSelectedRow()).getIntentAnswerList(), list.get(table.getSelectedRow()).getID());
                     });
                     cancelBut.addActionListener(t -> {
                         addDialog.dispose();
                         addDialog.setVisible(false);
                     });
-
                     addPanel.add(new JLabel("IntentName"));
                     addPanel.add(saveIntent);
                     addPanel.add(saveBut);
@@ -131,11 +156,27 @@ public class AlexaMainPanel extends JPanel{
             deleteBut.addActionListener(e -> {
                 LockoutCheck.lastButClick = System.currentTimeMillis();
                 if (table.isRowSelected(table.getSelectedRow())) {
-                    list.remove(table.getSelectedRow());
-                    model.setDataVector(getTableData(), columnNames);
+                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                        @Override
+                        protected Object doInBackground() throws Exception {
+                            apiClient.deleteIntent(apiClient.getIntents().getIntents().get(table.getSelectedRow()).getIntentID());
+                            list.remove(table.getSelectedRow());
+                            // I'm assuming since we dont create a new GSON on the deleteIntent method call,
+                            // that is why I get the failed to parse response into JSON.
+                            // same thing happens when i delete an intent answer. so it must be normal?!
+                            return null;
+                        }
+                        @Override
+                        protected void done() {
+                            setCursor(Cursor.getDefaultCursor());
+                            model.setDataVector(getTableData(), columnNames);
+                            super.done();
+                        }
+                    };
+                    swingWorker.execute();
                 }
             });
-
         buttons.add(addBut);
         buttons.add(editBut);
         buttons.add(deleteBut);
@@ -167,8 +208,6 @@ public class AlexaMainPanel extends JPanel{
                 for (IntentDetail el : apiClient.getIntents().getIntents()) {
                 list.add(new AlexaIntent(el.getIntentID(), el.getName(), el.getDateAdded(), apiClient.getAnswers(el.getIntentID()).getAnswers()));
                 }
-                System.out.println("list size INSIDE worker methods" + list.size());
-
                 return null;
             }
             @Override
@@ -179,27 +218,5 @@ public class AlexaMainPanel extends JPanel{
             }
         };
         swingWorker.execute();
-        System.out.println("list size outside worker methods" + list.size());
-//        AlexaIntent intent0 = new AlexaIntent(0, "PullAltitude", formattedDateTime, new ArrayList());
-//        AlexaIntent intent1 = new AlexaIntent(1, "SkydivingGear", formattedDateTime, new ArrayList());
-//        AlexaIntent intent2 = new AlexaIntent(2, "CircleOfAwareness", formattedDateTime, new ArrayList());
-//        AlexaIntent intent3 = new AlexaIntent(3, "SkydivingRush", formattedDateTime, new ArrayList());
-//        AlexaIntent intent4 = new AlexaIntent(4, "DecisionAltitude", formattedDateTime, new ArrayList());
-//        AlexaIntent intent5 = new AlexaIntent(5, "StayCalm", formattedDateTime, new ArrayList());
-//        AlexaIntent intent6 = new AlexaIntent(6, "ParamountPartOfSkydiving", formattedDateTime, new ArrayList());
-//        AlexaIntent intent7 = new AlexaIntent(7, "Jumprun", formattedDateTime, new ArrayList());
-//        AlexaIntent intent8 = new AlexaIntent(8, "WindsAloft", formattedDateTime, new ArrayList());
-//        AlexaIntent intent9 = new AlexaIntent(9, "Freefall", formattedDateTime, new ArrayList());
-//
-//        list.add(intent0);
-//        list.add(intent1);
-//        list.add(intent2);
-//        list.add(intent3);
-//        list.add(intent4);
-//        list.add(intent5);
-//        list.add(intent6);
-//        list.add(intent7);
-//        list.add(intent8);
-//        list.add(intent9);
     }
 }

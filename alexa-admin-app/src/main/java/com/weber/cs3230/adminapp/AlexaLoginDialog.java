@@ -19,7 +19,6 @@ public class AlexaLoginDialog extends JDialog {
         pack();
         setVisible(true);
     }
-
     private JPanel dialogCredentialPanel()    {
         JPanel dialogPanel = new JPanel(new GridLayout(3, 2));
         JTextField loginString = new JTextField();
@@ -34,8 +33,6 @@ public class AlexaLoginDialog extends JDialog {
         dialogPanel.add(passString);
         dialogPanel.add(loginButton);
         loginButton.addActionListener(e -> {
-            // Do swing worker in here
-
             ApiClient apiClient = new ApiClient();
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
@@ -56,27 +53,14 @@ public class AlexaLoginDialog extends JDialog {
                     }
                     return null;
                 }
-
                 @Override
                 protected void done() {
                     setCursor(Cursor.getDefaultCursor());
+                    LockoutCheck.lastButClick = System.currentTimeMillis();
                     super.done();
                 }
             };
             swingWorker.execute();
-
-            /*
-            if (loginString.getText().equals("user") && new String(passString.getPassword()).equals("pass")) {
-                LockoutCheck lockoutCheck = new LockoutCheck();
-                lockoutCheck.startLockoutThread();
-                setVisible(false);
-                dispose();
-            }
-            else {
-                JOptionPane warning = new JOptionPane();
-                JOptionPane.showMessageDialog(warning, "Incorrect Credentials");
-            }
-            */
         });
         dialogPanel.add(closeButton);
         closeButton.addActionListener(e -> {

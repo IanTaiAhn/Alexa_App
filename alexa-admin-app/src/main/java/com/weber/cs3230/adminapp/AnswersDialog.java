@@ -49,8 +49,8 @@ public class AnswersDialog extends JDialog {
     private JPanel butPanel()   {
         JPanel panel = new JPanel();
         ApiClient apiClient = new ApiClient();
-        JTextField answerText = new JTextField("", 10);
-        JTextField editAnswerText = new JTextField("", 10);
+        JTextField answerText = new JTextField("add here!", 10);
+        JTextField editAnswerText = new JTextField("edit here!", 10);
         JButton addBut = new JButton("Add");
         JButton editBut = new JButton("Edit");
         JButton deleteBut = new JButton("Delete");
@@ -60,13 +60,11 @@ public class AnswersDialog extends JDialog {
             SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
                 @Override
                 protected Object doInBackground() throws Exception {
-//                    System.out.println("before " + answersList.size());
                     IntentAnswer newAnswer = new IntentAnswer();
                     newAnswer.setIntentID(alexaIntentID);
                     newAnswer.setText(answerText.getText());
                     apiClient.saveNewAnswer(alexaIntentID, answerText.getText());
                     answersList.add(newAnswer);
-//                    System.out.println("after " + answersList.size());
                     return null;
                 }
                 @Override
@@ -78,23 +76,52 @@ public class AnswersDialog extends JDialog {
                 }
             };
             swingWorker.execute();
-
-
         });
         editBut.addActionListener(e -> {
             if (table.getSelectedRow() > -1)    {
-//            answersList.set(table.getSelectedRow(), editAnswerText.getText());
-            model.setDataVector(getTableData(), columnNames);
-            editAnswerText.setText("");
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        long answerID = apiClient.getAnswers(alexaIntentID).getAnswers().get(table.getSelectedRow()).getAnswerID();
+                        answersList.set(table.getSelectedRow(), apiClient.updateAnswer(alexaIntentID, answerID, editAnswerText.getText()));
+                        return null;
+                    }
+                    @Override
+                    protected void done() {
+                        setCursor(Cursor.getDefaultCursor());
+                        editAnswerText.setText("");
+                        model.setDataVector(getTableData(), columnNames);
+                        super.done();
+                    }
+                };
+                swingWorker.execute();
             }
         });
         deleteBut.addActionListener(u -> {
             if (table.getSelectedRow() > -1)    {
-                answersList.remove(table.getSelectedRow());
-                model.setDataVector(getTableData(), columnNames);
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        // Idk why, but this delete method triggers a raw response to return,
+                        // and I'm wondering if that is because we don't actually need to create a GSON object?
+                        // so I think that it's okay for now.
+                        long answerID = apiClient.getAnswers(alexaIntentID).getAnswers().get(table.getSelectedRow()).getAnswerID();
+                        apiClient.deleteAnswer(alexaIntentID, answerID);
+                        answersList.remove(table.getSelectedRow());
+                        return null;
+                    }
+                    @Override
+                    protected void done() {
+                        setCursor(Cursor.getDefaultCursor());
+                        model.setDataVector(getTableData(), columnNames);
+                        super.done();
+                    }
+                };
+                swingWorker.execute();
             }
         });
-
         answerText.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
         panel.add(answerText);
         panel.add(addBut);
@@ -114,9 +141,5 @@ public class AnswersDialog extends JDialog {
         }
         return rows.toArray(new Object[0][0]);
     }
-
-//    private void addIntentAnswer(JTextField text)   {
-//        answersList.add(text.getText());
-//    }
 }
 

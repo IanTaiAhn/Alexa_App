@@ -15,6 +15,7 @@ public class ApiClient {
         // test apiClient methods here.
 
         //intentID's start at 45, and ends at 54
+        /*
         for (IntentDetail el : apiClient.getIntents().getIntents())  {
             System.out.println("IntentID: " + el.getIntentID());
             System.out.println("IntentName: " + el.getName());
@@ -29,8 +30,7 @@ public class ApiClient {
             System.out.println("IntentDesc: " + el.getText());
             System.out.println("dateadded: " + el.getDateAdded());
         }
-//        System.out.println(apiClient.getAnswers());
-//        System.out.println(apiClient.getIntents().getIntents().get(1).getName());
+        */
     }
 
     public boolean validateCreds(String username, String password) {
