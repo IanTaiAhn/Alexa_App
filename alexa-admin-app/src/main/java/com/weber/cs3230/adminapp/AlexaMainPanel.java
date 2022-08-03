@@ -48,6 +48,7 @@ public class AlexaMainPanel extends JPanel{
         JButton addBut = new JButton("Add");
         JButton editBut = new JButton("Edit");
         JButton deleteBut = new JButton("Delete");
+        JButton metricsBut = new JButton("Metrics");
 
         addBut.addActionListener(e -> {
             LockoutCheck.lastButClick = System.currentTimeMillis();
@@ -177,9 +178,39 @@ public class AlexaMainPanel extends JPanel{
                     swingWorker.execute();
                 }
             });
+
+        metricsBut.addActionListener(e -> {
+            LockoutCheck.lastButClick = System.currentTimeMillis();
+            JDialog metricsDialog = new MetricsDialog((List)apiClient.getMetrics());
+/*
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                    // call the metrics dialog class here
+                        System.out.println("why didn't this get called?");
+                        System.out.println("doinbacak");
+                        return null;
+                    }
+                    @Override
+                    protected void done() {
+                        setCursor(Cursor.getDefaultCursor());
+                        model.setDataVector(getTableData(), columnNames);
+                        super.done();
+                        System.out.println("done");
+                    }
+                };
+                swingWorker.execute();
+            System.out.println("finished metricss");
+            */
+
+        });
+
+
         buttons.add(addBut);
         buttons.add(editBut);
         buttons.add(deleteBut);
+        buttons.add(metricsBut);
         return buttons;
     }
 

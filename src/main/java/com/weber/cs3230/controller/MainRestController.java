@@ -1,6 +1,7 @@
 package com.weber.cs3230.controller;
 
 import com.weber.cs3230.AlexaDAO;
+import com.weber.cs3230.MetricUIList;
 import com.weber.cs3230.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,5 +79,10 @@ public class MainRestController {
     public ResponseEntity<String> deleteAnswer(@PathVariable long intentID, @PathVariable long answerID) {
         alexaDAO.deleteAnswer(intentID, answerID);
         return new ResponseEntity<>("deleted answer " + answerID, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/metrics", method = RequestMethod.GET)
+    public MetricUIList getMetrics() {
+        return alexaDAO.getMetricsList();
     }
 }

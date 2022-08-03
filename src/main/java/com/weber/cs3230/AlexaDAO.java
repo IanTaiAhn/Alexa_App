@@ -28,6 +28,34 @@ public class AlexaDAO {
         this.alexaAppID = "cs323012321232123";
     }
 
+    public MetricUIList getMetricsList()   {
+        log.info("Getting Metrics data");
+
+        final MetricUIList metricsList = new MetricUIList();
+        final String sql = "SELECT eventname, count(*) AS eventcount, MAX(dtstamp) AS mostrecentdtstamp\n" +
+                "FROM axmetrics\n" +
+                "WHERE appname = '?'\n" +
+                "GROUP BY eventname";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, "Skybot");
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    // come back and fix this since I don't think this is correct.
+                    final MetricUI metric = new MetricUI();
+                    metric.setEventName(rs.getString("eventname"));
+                    metric.setCount(rs.getLong("eventcount"));
+                    metric.setMostRecentDate(parseDBDate(rs.getTimestamp("dtstamp")));
+                    metricsList.getMetrics().add(metric);
+                }
+            }
+            return metricsList;
+        } catch (ClassNotFoundException|SQLException e) {
+            throw new RuntimeException("Failed to get metrics list", e);
+        }
+    }
+
     public List<String> getAnswersForIntent(String intentName) {
         log.info("Getting answers for " + intentName);
 
