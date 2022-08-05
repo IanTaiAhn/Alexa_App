@@ -1,6 +1,7 @@
 package com.weber.cs3230.controller;
 
 import com.weber.cs3230.AlexaDAO;
+import com.weber.cs3230.ExecutorThread;
 import com.weber.cs3230.MetricUIList;
 import com.weber.cs3230.dto.*;
 import org.slf4j.Logger;
@@ -83,6 +84,8 @@ public class MainRestController {
 
     @RequestMapping(value = "/metrics", method = RequestMethod.GET)
     public MetricUIList getMetrics() {
+        ExecutorThread executorThread = new ExecutorThread();
+        executorThread.submitMetricAsync();
         return alexaDAO.getMetricsList();
     }
 }

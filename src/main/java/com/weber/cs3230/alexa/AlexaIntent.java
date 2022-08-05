@@ -1,4 +1,4 @@
-package com.weber.cs3230.Alexa;
+package com.weber.cs3230.alexa;
 
 import java.util.Arrays;
 

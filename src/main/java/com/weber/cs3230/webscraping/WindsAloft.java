@@ -1,4 +1,4 @@
-package com.weber.cs3230.WebScraping;
+package com.weber.cs3230.webscraping;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,9 @@ public class WindsAloft {
         this.windGust = windGust;
     }
     public WindsAloft() {
-
+    }
+    public WindsAloft(ArrayList<WindsAloft> list) {
+        this.windsAloftList = list;
     }
 
     public ArrayList<WindsAloft> getWindsAloftList() {

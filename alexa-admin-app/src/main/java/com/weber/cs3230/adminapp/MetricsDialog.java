@@ -20,10 +20,10 @@ public class MetricsDialog extends  JDialog{
             setPreferredSize(new Dimension(600, 400));
             setModalityType(ModalityType.APPLICATION_MODAL);
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-//            add(mainMetricsPanel(), BorderLayout.NORTH);
-            add(mainMetricsPanel());
-//            add(createTablePanel(), BorderLayout.CENTER);
-            add(createTablePanel());
+            add(mainMetricsPanel(), BorderLayout.NORTH);
+//            add(mainMetricsPanel());
+            add(createTablePanel(), BorderLayout.CENTER);
+//            add(createTablePanel());
 //            add(butPanel(), BorderLayout.SOUTH);
             pack();
             setVisible(true);

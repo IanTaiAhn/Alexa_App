@@ -1,6 +1,6 @@
 package com.weber.cs3230;
 
-import com.weber.cs3230.Alexa.AlexaIntent;
+import com.weber.cs3230.alexa.AlexaIntent;
 
 public class NoAvailableAnswerException extends Exception{
     private AlexaIntent alexaIntent;

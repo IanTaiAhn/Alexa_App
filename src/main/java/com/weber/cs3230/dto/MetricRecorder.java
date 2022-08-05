@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
+import java.util.concurrent.ExecutorService;
+
 public class MetricRecorder {
     private final HttpCommunicator httpCommunicator = new HttpCommunicator();
     private final Logger log = LoggerFactory.getLogger(this.getClass());

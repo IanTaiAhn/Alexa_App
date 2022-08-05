@@ -1,4 +1,4 @@
-package com.weber.cs3230.WebScraping;
+package com.weber.cs3230.webscraping;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -6,14 +6,20 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class JSoupScraper {
+    private ArrayList<WindsAloft> passedDataList = new ArrayList<>();
     public static void main(String[] args) throws IOException {
 
+//        getScrapedDataList();
+    }
+
+    public ArrayList<WindsAloft> scrapeData() {
         try {
             Document page = Jsoup.connect("https://www.windfinder.com/forecast/erda_utah_usa").get();
-
             // this is a good select for getting a whole bunch of data
             Elements weatherTableRow = page.select("div.weathertable__row");
 
@@ -27,25 +33,25 @@ public class JSoupScraper {
             WindsAloft windsAloftList = new WindsAloft();
 
             ArrayList<String> windDirectionList = new ArrayList<>();
-            for (Element el : windDirection)  {
+            for (Element el : windDirection) {
                 windDirectionList.add(el.attributes().get("title"));
             }
 
             int dateCounter = 0;
             int loops = 0;
-            for (int i = 0; i < time.size(); i++)   {
+            for (int i = 0; i < time.size(); i++) {
                 WindsAloft windsAloft = new WindsAloft(date.get(dateCounter).text(), time.get(i).text(), windDirectionList.get(i), windSpeeds.get(i).text(), windGusts.get(i).text());
                 loops++;
                 windsAloftList.addWindsAloft(windsAloft);
-                if (loops == 8)  {
+                if (loops == 8) {
                     dateCounter++;
                     loops = 0;
                 }
             }
-
-            for (WindsAloft el : windsAloftList.getWindsAloftList())  {
-                System.out.println(el.getDate() + " " + el.getTime()  + " " + el.getWindDirection() +  " " + el.getWindSpeed() + " " + el.getWindGust());
-            }
+//             gives me all that good data.
+//            for (WindsAloft el : windsAloftList.getWindsAloftList()) {
+//                System.out.println(el.getDate() + " " + el.getTime() + " " + el.getWindDirection() + " " + el.getWindSpeed() + " " + el.getWindGust());
+//            }
 
             // Testing the info from website.
             /*
@@ -73,8 +79,12 @@ public class JSoupScraper {
                 WindsAloft windsAloft = new WindsAloft(el.text())
             }
             */
-        }   catch (IOException e)   {
+            return windsAloftList.getWindsAloftList();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("failed");
+        return null;
     }
+
 }

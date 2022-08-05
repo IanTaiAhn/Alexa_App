@@ -1,4 +1,4 @@
-package com.weber.cs3230.Alexa;
+package com.weber.cs3230.alexa;
 
 import com.weber.cs3230.NoAvailableAnswerException;
 import com.weber.cs3230.dto.Answer;
