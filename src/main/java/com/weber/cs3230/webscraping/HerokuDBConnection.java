@@ -19,16 +19,9 @@ public class HerokuDBConnection {
     public static void main(String[] args) {
 
         HerokuDBConnection db = new HerokuDBConnection();
-//        db.insertWindsAloft();
-        // runs query
+//      Runs my queries.
 //        System.out.println(db.insertWindsAloft());
-        System.out.println(db.truncateTable());
-
-//        JSoupScraper jSoupScraper = new JSoupScraper();
-//        WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
-//        for (WindsAloft el : windsAloft.getWindsAloftList())  {
-//            System.out.println(el.getDate() + " " + el.getTime() + " " + el.getWindDirection() + " " + el.getWindSpeed() + " " + el.getWindGust());
-//        }
+//        System.out.println(db.truncateTable());
     }
     public boolean insertWindsAloft() {
         final String sql = "INSERT INTO public.\"WindsAloft\"(\"WindsAloftDate\", \"WindsAloftTime\", \"WindDirection\", \"WindSpeed\", \"WindGust\")\n" +
@@ -69,9 +62,4 @@ public class HerokuDBConnection {
         String url = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
         return DriverManager.getConnection(url, dbUser, dbPassword);
     }
-
-//    private static Connection getConnection() throws URISyntaxException, SQLException {
-//        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-//        return DriverManager.getConnection(dbUrl);
-//    }
 }

@@ -20,10 +20,7 @@ public class JSoupScraper {
     public ArrayList<WindsAloft> scrapeData() {
         try {
             Document page = Jsoup.connect("https://www.windfinder.com/forecast/erda_utah_usa").get();
-            // this is a good select for getting a whole bunch of data
-            Elements weatherTableRow = page.select("div.weathertable__row");
 
-            // Refined the selects so I get the text I need.
             Elements date = page.select("h3.h");
             Elements time = page.select("div.data-time");
             Elements windDirection = page.select("div.directionarrow");
@@ -48,12 +45,23 @@ public class JSoupScraper {
                     loops = 0;
                 }
             }
-//             gives me all that good data.
+            return windsAloftList.getWindsAloftList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("failed");
+        return null;
+    }
+
+}
+
+// Keeping these comments here if I need to test stuff from the web scraper.
+//            gives me all that good data.
 //            for (WindsAloft el : windsAloftList.getWindsAloftList()) {
 //                System.out.println(el.getDate() + " " + el.getTime() + " " + el.getWindDirection() + " " + el.getWindSpeed() + " " + el.getWindGust());
 //            }
 
-            // Testing the info from website.
+// Testing the info from website.
             /*
             for (Element el : date)  {
                 System.out.println("date: " + el.text());
@@ -79,12 +87,3 @@ public class JSoupScraper {
                 WindsAloft windsAloft = new WindsAloft(el.text())
             }
             */
-            return windsAloftList.getWindsAloftList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("failed");
-        return null;
-    }
-
-}

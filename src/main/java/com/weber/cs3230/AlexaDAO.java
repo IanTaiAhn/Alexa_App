@@ -23,7 +23,6 @@ public class AlexaDAO {
     @Value("${db.user}") private String dbUser;
     @Value("${db.password}") private String dbPassword;
 
-    // cahnge alexa ID! string of numbers we received a coup weeks back
     public AlexaDAO() {
         this.alexaAppID = "cs323012321232123";
     }

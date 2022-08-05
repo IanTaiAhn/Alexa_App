@@ -84,8 +84,8 @@ public class MainRestController {
 
     @RequestMapping(value = "/metrics", method = RequestMethod.GET)
     public MetricUIList getMetrics() {
-        ExecutorThread executorThread = new ExecutorThread();
-        executorThread.submitMetricAsync();
+//        ExecutorThread executorThread = new ExecutorThread();
+//        executorThread.submitMetricAsync();
         return alexaDAO.getMetricsList();
     }
 }
