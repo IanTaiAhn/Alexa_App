@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AnswersDialog extends JDialog {
     private DefaultTableModel model;
@@ -57,22 +58,30 @@ public class AnswersDialog extends JDialog {
 
         addBut.addActionListener(e -> {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+            SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                 @Override
-                protected Object doInBackground() throws Exception {
+                protected Boolean doInBackground() throws Exception {
                     IntentAnswer newAnswer = new IntentAnswer();
                     newAnswer.setIntentID(alexaIntentID);
                     newAnswer.setText(answerText.getText());
                     apiClient.saveNewAnswer(alexaIntentID, answerText.getText());
                     answersList.add(newAnswer);
-                    return null;
+                    return true;
                 }
                 @Override
                 protected void done() {
-                    setCursor(Cursor.getDefaultCursor());
-                    answerText.setText("");
-                    model.setDataVector(getTableData(), columnNames);
-                    super.done();
+                    try {
+                        if (get() == true)  {
+                            setCursor(Cursor.getDefaultCursor());
+                            answerText.setText("");
+                            model.setDataVector(getTableData(), columnNames);
+                            super.done();
+                        }
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ExecutionException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             };
             swingWorker.execute();
@@ -80,19 +89,27 @@ public class AnswersDialog extends JDialog {
         editBut.addActionListener(e -> {
             if (table.getSelectedRow() > -1)    {
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                     @Override
-                    protected Object doInBackground() throws Exception {
+                    protected Boolean doInBackground() throws Exception {
                         long answerID = apiClient.getAnswers(alexaIntentID).getAnswers().get(table.getSelectedRow()).getAnswerID();
                         answersList.set(table.getSelectedRow(), apiClient.updateAnswer(alexaIntentID, answerID, editAnswerText.getText()));
-                        return null;
+                        return true;
                     }
                     @Override
                     protected void done() {
-                        setCursor(Cursor.getDefaultCursor());
-                        editAnswerText.setText("");
-                        model.setDataVector(getTableData(), columnNames);
-                        super.done();
+                        try {
+                            if (get() == true) {
+                                setCursor(Cursor.getDefaultCursor());
+                                editAnswerText.setText("");
+                                model.setDataVector(getTableData(), columnNames);
+                                super.done();
+                            }
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (ExecutionException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 };
                 swingWorker.execute();
@@ -101,22 +118,30 @@ public class AnswersDialog extends JDialog {
         deleteBut.addActionListener(u -> {
             if (table.getSelectedRow() > -1)    {
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                     @Override
-                    protected Object doInBackground() throws Exception {
+                    protected Boolean doInBackground() throws Exception {
                         // Idk why, but this delete method triggers a raw response to return,
                         // and I'm wondering if that is because we don't actually need to create a GSON object?
                         // so I think that it's okay for now.
                         long answerID = apiClient.getAnswers(alexaIntentID).getAnswers().get(table.getSelectedRow()).getAnswerID();
                         apiClient.deleteAnswer(alexaIntentID, answerID);
                         answersList.remove(table.getSelectedRow());
-                        return null;
+                        return true;
                     }
                     @Override
                     protected void done() {
-                        setCursor(Cursor.getDefaultCursor());
-                        model.setDataVector(getTableData(), columnNames);
-                        super.done();
+                        try {
+                            if (get() == true) {
+                                setCursor(Cursor.getDefaultCursor());
+                                model.setDataVector(getTableData(), columnNames);
+                                super.done();
+                            }
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        } catch (ExecutionException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 };
                 swingWorker.execute();

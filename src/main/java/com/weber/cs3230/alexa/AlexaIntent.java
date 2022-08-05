@@ -13,6 +13,10 @@ public enum AlexaIntent  {
     JUMP_RUN("Jumprun"),
     WINDS_ALOFT("WindsAloft"),
     FREEFALL("Freefall");
+//    databasedoer;
+//    RandomEnum
+
+    // add something
 
     private final String intentName;
 

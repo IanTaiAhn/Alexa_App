@@ -9,9 +9,9 @@ public class ApiClient {
     private final HttpCommunicator httpCommunicator = new HttpCommunicator();
     private final String baseUrl = "http://localhost:8080";
 
-    // test with main method for this here i think.
+    // TODO Delete this main method when I'm finished with this project.
     public static void main(String[] args)  {
-        ApiClient apiClient = new ApiClient();
+//        ApiClient apiClient = new ApiClient();
         // test apiClient methods here.
         // IT WORKS!
 //        System.out.println(apiClient.getMetrics().getMetrics().get(0));
@@ -24,9 +24,7 @@ public class ApiClient {
             System.out.println("IntentName: " + el.getName());
             System.out.println("dateadded: " + el.getDateAdded());
         }
-
         System.out.println();
-
         for (IntentAnswer el : apiClient.getAnswers(46).getAnswers())  {
             System.out.println("AnswerID: " + el.getAnswerID());
             System.out.println("IntentID: " + el.getIntentID());

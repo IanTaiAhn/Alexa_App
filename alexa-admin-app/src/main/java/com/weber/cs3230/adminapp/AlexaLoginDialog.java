@@ -35,26 +35,32 @@ public class AlexaLoginDialog extends JDialog {
         loginButton.addActionListener(e -> {
             ApiClient apiClient = new ApiClient();
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+            SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                 @Override
-                protected String doInBackground() throws Exception {
-                    Thread.sleep(1000); // Sleeps thread for 1 secs after pressing login button. To see the cirlce spin
+                protected Boolean doInBackground() throws Exception {
+                    Thread.sleep(500); // Sleeps thread for 1 secs after pressing login button. To see the cirlce spin
                     String user =  loginString.getText();
                     String pass =  new String(passString.getPassword());
-                    if (apiClient.validateCreds(user, pass)) {
-                        LockoutCheck lockoutCheck = new LockoutCheck();
-                        lockoutCheck.startLockoutThread();
-                        setVisible(false);
-                        dispose();
-                    }
-                    else {
-                        JOptionPane warning = new JOptionPane();
-                        JOptionPane.showMessageDialog(warning, "Incorrect Credentials");
-                    }
-                    return null;
+                    return apiClient.validateCreds(user, pass);
                 }
                 @Override
                 protected void done() {
+                    try {
+                        if (get() == true) {
+                            LockoutCheck lockoutCheck = new LockoutCheck();
+                            lockoutCheck.startLockoutThread();
+                            setVisible(false);
+                            dispose();
+                        }
+                        else {
+                            JOptionPane warning = new JOptionPane();
+                            JOptionPane.showMessageDialog(warning, "Incorrect Credentials");
+                        }
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ExecutionException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     setCursor(Cursor.getDefaultCursor());
                     LockoutCheck.lastButClick = System.currentTimeMillis();
                     super.done();

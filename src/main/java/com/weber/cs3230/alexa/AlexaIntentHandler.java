@@ -20,6 +20,7 @@ public class AlexaIntentHandler {
         this.dbAnswerGenerator = dbAnswerGenerator;
     }
 
+    // alex enum intent for inserting into database.
     public Answer handleIntent(@PathVariable String intentString) throws NoAvailableAnswerException {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
         log.info("intentString that gets passed in: " + intentString);
@@ -27,6 +28,7 @@ public class AlexaIntentHandler {
          if (intent == null)    {
              return null;
          }
+         // if to trigger to database method ..
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }
 }

@@ -11,20 +11,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AlexaMainPanel extends JPanel{
-    private long count = 10;
     private JTable table;
     private final String[] columnNames = {"ID", "Intent Names", "Date Added"};
     private List<AlexaIntent> list = new ArrayList<>();
     private DefaultTableModel model;
 
     public AlexaMainPanel() {
-        // Order matters !
-        populateTable();
         add(createTitle(), BorderLayout.NORTH);
         add(createTablePanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
+        populateTable();
     }
 
     private JLabel createTitle() {
@@ -66,21 +65,29 @@ public class AlexaMainPanel extends JPanel{
                 String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
 
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                     @Override
-                    protected Object doInBackground() throws Exception {
+                    protected Boolean doInBackground() throws Exception {
                         long alexaIntentID = apiClient.saveNewIntent(saveIntent.getText()).getIntentID();
                         AlexaIntent intent = new AlexaIntent(alexaIntentID, saveIntent.getText(), formattedDateTime, apiClient.getAnswers(alexaIntentID).getAnswers());
                         list.add(intent);
-                        return null;
+                        return true;
                     }
                     @Override
                     protected void done() {
-                        setCursor(Cursor.getDefaultCursor());
-                        model.setDataVector(getTableData(), columnNames);
-                        addDialog.dispose();
-                        addDialog.setVisible(false);
-                        super.done();
+                        try {
+                            if (get() == true) {
+                                setCursor(Cursor.getDefaultCursor());
+                                model.setDataVector(getTableData(), columnNames);
+                                addDialog.dispose();
+                                addDialog.setVisible(false);
+                                super.done();
+                            }
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (ExecutionException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 };
                 swingWorker.execute();
@@ -115,21 +122,29 @@ public class AlexaMainPanel extends JPanel{
                     addDialog.setVisible(true);
                     saveBut.addActionListener(r -> {
                         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                        SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                        SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                             @Override
-                            protected Object doInBackground() throws Exception {
-                                apiClient.updateIntent(apiClient.getIntents().getIntents().get(table.getSelectedRow()).getIntentID(), saveIntent.getText());
+                            protected Boolean doInBackground() throws Exception {
+                                apiClient.updateIntent(list.get(table.getSelectedRow()).getID(), saveIntent.getText());
                                 list.get(table.getSelectedRow()).setIntentName(saveIntent.getText());
                                 list.set(table.getSelectedRow(), list.get(table.getSelectedRow()));
-                                return null;
+                                return true;
                             }
                             @Override
                             protected void done() {
-                                setCursor(Cursor.getDefaultCursor());
-                                model.setDataVector(getTableData(), columnNames);
-                                addDialog.dispose();
-                                addDialog.setVisible(false);
-                                super.done();
+                                try {
+                                    if (get() == true) {
+                                        setCursor(Cursor.getDefaultCursor());
+                                        model.setDataVector(getTableData(), columnNames);
+                                        addDialog.dispose();
+                                        addDialog.setVisible(false);
+                                        super.done();
+                                    }
+                                } catch (InterruptedException ex) {
+                                    throw new RuntimeException(ex);
+                                } catch (ExecutionException ex) {
+                                    throw new RuntimeException(ex);
+                                }
                             }
                         };
                         swingWorker.execute();
@@ -158,21 +173,30 @@ public class AlexaMainPanel extends JPanel{
                 LockoutCheck.lastButClick = System.currentTimeMillis();
                 if (table.isRowSelected(table.getSelectedRow())) {
                     setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                    SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                    SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                         @Override
-                        protected Object doInBackground() throws Exception {
-                            apiClient.deleteIntent(apiClient.getIntents().getIntents().get(table.getSelectedRow()).getIntentID());
+                        protected Boolean doInBackground() throws Exception {
+                            apiClient.deleteIntent(list.get(table.getSelectedRow()).getID());
                             list.remove(table.getSelectedRow());
                             // I'm assuming since we dont create a new GSON on the deleteIntent method call,
                             // that is why I get the failed to parse response into JSON.
                             // same thing happens when i delete an intent answer. so it must be normal?!
-                            return null;
+                            return true;
                         }
                         @Override
                         protected void done() {
-                            setCursor(Cursor.getDefaultCursor());
-                            model.setDataVector(getTableData(), columnNames);
-                            super.done();
+                            try {
+                                if (get() == true)  {
+                                    setCursor(Cursor.getDefaultCursor());
+                                    model.setDataVector(getTableData(), columnNames);
+                                    super.done();
+                                }
+                            } catch (InterruptedException ex) {
+                                throw new RuntimeException(ex);
+                            } catch (ExecutionException ex) {
+                                throw new RuntimeException(ex);
+                            }
+
                         }
                     };
                     swingWorker.execute();
@@ -181,34 +205,30 @@ public class AlexaMainPanel extends JPanel{
 
         metricsBut.addActionListener(e -> {
             LockoutCheck.lastButClick = System.currentTimeMillis();
-
-          JDialog metricsDialog = new MetricsDialog(apiClient.getMetrics().getMetrics());
-//            JDialog metricsDialog = new MetricsDialog(new ArrayList());
-
-/*
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+                SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
                     @Override
-                    protected Object doInBackground() throws Exception {
-                    // call the metrics dialog class here
-                        System.out.println("why didn't this get called?");
-                        System.out.println("doinbacak");
-                        return null;
+                    protected Boolean doInBackground() throws Exception {
+                        JDialog metricsDialog = new MetricsDialog(apiClient.getMetrics().getMetrics());
+                        return true;
                     }
                     @Override
                     protected void done() {
-                        setCursor(Cursor.getDefaultCursor());
-                        model.setDataVector(getTableData(), columnNames);
-                        super.done();
-                        System.out.println("done");
+                        try {
+                            if (get() == true) {
+                                setCursor(Cursor.getDefaultCursor());
+                                model.setDataVector(getTableData(), columnNames);
+                                super.done();
+                            }
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (ExecutionException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 };
                 swingWorker.execute();
-            System.out.println("finished metricss");
-            */
-
         });
-
 
         buttons.add(addBut);
         buttons.add(editBut);
@@ -230,25 +250,29 @@ public class AlexaMainPanel extends JPanel{
     }
 
     private void populateTable()    {
-        LocalDateTime currentLocalDateTime = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = currentLocalDateTime.format(dateTimeFormatter);
-
         ApiClient apiClient = new ApiClient();
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SwingWorker<Object, Object> swingWorker = new SwingWorker<>() {
+        SwingWorker<Boolean, Object> swingWorker = new SwingWorker<>() {
             @Override
-            protected Object doInBackground() throws Exception {
+            protected Boolean doInBackground() throws Exception {
                 for (IntentDetail el : apiClient.getIntents().getIntents()) {
                 list.add(new AlexaIntent(el.getIntentID(), el.getName(), el.getDateAdded(), apiClient.getAnswers(el.getIntentID()).getAnswers()));
                 }
-                return null;
+                return true;
             }
             @Override
             protected void done() {
-                setCursor(Cursor.getDefaultCursor());
-                model.setDataVector(getTableData(), columnNames);
-                super.done();
+                try {
+                    if (get() == true) {
+                        setCursor(Cursor.getDefaultCursor());
+                        model.setDataVector(getTableData(), columnNames);
+                        super.done();
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
         swingWorker.execute();

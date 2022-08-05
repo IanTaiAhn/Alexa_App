@@ -32,6 +32,8 @@ public class HandlerSpeechlet implements SpeechletV2 {
         return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), "Launching...", "Welcome to skybot");
     }
 
+
+    // in onIntent
     @Override
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
         try {
