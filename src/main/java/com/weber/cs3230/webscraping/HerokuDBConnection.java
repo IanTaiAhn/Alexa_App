@@ -1,10 +1,6 @@
 package com.weber.cs3230.webscraping;
 
-import org.springframework.stereotype.Component;
-
-import java.net.URISyntaxException;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class HerokuDBConnection {
 
