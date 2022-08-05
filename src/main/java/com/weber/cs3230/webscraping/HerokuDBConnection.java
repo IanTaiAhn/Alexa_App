@@ -1,21 +1,18 @@
 package com.weber.cs3230.webscraping;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-@Component
 public class HerokuDBConnection {
 
-    @Value("${db.host}") private String dbHost = "ec2-18-214-35-70.compute-1.amazonaws.com";
-    @Value("${db.port}") private String dbPort = "5432";
-    @Value("${db.name}") private String dbName = "d1auj72juq3fgq";
-    @Value("${db.user}") private String dbUser = "ofzlwollcxbevm";
-    @Value("${db.password}") private String dbPassword = "6c975cd29e840a0d2de16113c126d25d41e13287b15434bfbf98efb358a52784";
+    private String dbHost = "ec2-18-214-35-70.compute-1.amazonaws.com";
+    private String dbPort = "5432";
+    private String dbName = "d1auj72juq3fgq";
+    private String dbUser = "ofzlwollcxbevm";
+    private String dbPassword = "6c975cd29e840a0d2de16113c126d25d41e13287b15434bfbf98efb358a52784";
     public static void main(String[] args) {
 
         HerokuDBConnection db = new HerokuDBConnection();
