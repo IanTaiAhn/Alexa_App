@@ -13,8 +13,8 @@ public class ApiClient {
     public static void main(String[] args)  {
         ApiClient apiClient = new ApiClient();
         // test apiClient methods here.
-        System.out.println(apiClient.getMetrics().getMetrics().get(0).getEventName());
-        System.out.println("hmm");
+//        System.out.println(apiClient.getMetrics().getMetrics().get(0).getEventName());
+//        System.out.println("hmm");
         //intentID's start at 45, and ends at 54
         /*
         for (IntentDetail el : apiClient.getIntents().getIntents())  {
