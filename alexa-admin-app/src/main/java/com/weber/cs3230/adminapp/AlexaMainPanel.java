@@ -182,8 +182,8 @@ public class AlexaMainPanel extends JPanel{
         metricsBut.addActionListener(e -> {
             LockoutCheck.lastButClick = System.currentTimeMillis();
 
-//          JDialog metricsDialog = new MetricsDialog((List)apiClient.getMetrics());
-            JDialog metricsDialog = new MetricsDialog(new ArrayList());
+          JDialog metricsDialog = new MetricsDialog(apiClient.getMetrics().getMetrics());
+//            JDialog metricsDialog = new MetricsDialog(new ArrayList());
 
 /*
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

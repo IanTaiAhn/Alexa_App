@@ -18,5 +18,6 @@ public class ExecutorThread {
     private void submitMetric() {
         MetricRecorder metricRecorder = new MetricRecorder();
         metricRecorder.saveMetric("Jumprun");
+//        metricRecorder.
     }
 }

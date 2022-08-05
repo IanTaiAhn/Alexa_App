@@ -15,6 +15,8 @@ public class MetricRecorder {
         try {
             Metric metric = new Metric();
             metric.setEventName(eventName);
+            metric.setMetricID(metric.getMetricID());
+            metric.setDtStamp(metric.getDtStamp());
             metric.setAppName("Skybot");
             String json = new Gson().toJson(metric);
 

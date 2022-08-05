@@ -33,7 +33,7 @@ public class AlexaDAO {
         final MetricUIList metricsList = new MetricUIList();
         final String sql = "SELECT eventname, count(*) AS eventcount, MAX(dtstamp) AS mostrecentdtstamp\n" +
                 "FROM axmetrics\n" +
-                "WHERE appname = '?'\n" +
+                "WHERE appname = ?\n" +
                 "GROUP BY eventname";
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -41,11 +41,10 @@ public class AlexaDAO {
             statement.setString(1, "Skybot");
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    // come back and fix this since I don't think this is correct.
                     final MetricUI metric = new MetricUI();
                     metric.setEventName(rs.getString("eventname"));
                     metric.setCount(rs.getLong("eventcount"));
-                    metric.setMostRecentDate(parseDBDate(rs.getTimestamp("dtstamp")));
+                    metric.setMostRecentDate(parseDBDate(rs.getTimestamp("mostrecentdtstamp")));
                     metricsList.getMetrics().add(metric);
                 }
             }

@@ -15,7 +15,7 @@ public class MetricsDialog extends  JDialog{
         private List<MetricUI> metricList;
         private final String[] columnNames = {"EventName", "EventCount", "Date Added"};
 
-        public MetricsDialog(List list) {
+        public MetricsDialog(List<MetricUI> list) {
             this.metricList = list;
             setPreferredSize(new Dimension(600, 400));
             setModalityType(ModalityType.APPLICATION_MODAL);
@@ -76,7 +76,7 @@ public class MetricsDialog extends  JDialog{
         private Object[][] getTableData() {
             java.util.List<Object[]> rows = new ArrayList<>();
             for (MetricUI el : metricList)   {
-                Object[] row = new Object[1];
+                Object[] row = new Object[3];
                 row[0] = el.getEventName();
                 row[1] = el.getCount();
                 row[2] = el.getMostRecentDate();
