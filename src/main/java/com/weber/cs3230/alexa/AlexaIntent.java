@@ -12,11 +12,10 @@ public enum AlexaIntent  {
     PARAMOUNT_PART_OF_SKYDIVING("ParamountPartOfSkydiving"),
     JUMP_RUN("Jumprun"),
     WINDS_ALOFT("WindsAloft"),
-    FREEFALL("Freefall");
+    FREEFALL("Freefall"),
+    SCRAPEWEB("ScrapeWeb");
 //    databasedoer;
 //    RandomEnum
-
-    // add something
 
     private final String intentName;
 

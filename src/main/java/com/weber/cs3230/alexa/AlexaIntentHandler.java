@@ -3,6 +3,7 @@ package com.weber.cs3230.alexa;
 import com.weber.cs3230.NoAvailableAnswerException;
 import com.weber.cs3230.dto.Answer;
 import com.weber.cs3230.generators.DBAnswerGenerator;
+import com.weber.cs3230.webscraping.HerokuDBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,15 @@ public class AlexaIntentHandler {
          if (intent == null)    {
              return null;
          }
-         // if to trigger to database method ..
+        System.out.println("intent with method call " + intent.getIntentName());
+        System.out.println("intent that gets passed in " + intentString);
+        if (intent.getIntentName() == "WebScraper") {
+            HerokuDBConnection db = new HerokuDBConnection();
+//          Runs my queries.
+            System.out.println(db.insertWindsAloft());
+//          System.out.println(db.truncateTable());
+            System.out.println("queries have been run");
+        }
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }
 }
