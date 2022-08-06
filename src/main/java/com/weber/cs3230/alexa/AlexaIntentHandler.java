@@ -51,11 +51,11 @@ public class AlexaIntentHandler {
         }
         if (intent.getIntentName() == "Tomorrow") {
             HerokuDBConnection db = new HerokuDBConnection();
-            log.info("wind data for today has been uttered");
-            String twelvePmWd = db.getWindsAloftToday().get(9);
-            String twelvePmWs = db.getWindsAloftToday().get(10);
-            String twelvePmWg = db.getWindsAloftToday().get(11);
-            return new Answer("The wind direction today is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
+            log.info("wind data for tomorrow has been uttered");
+            String twelvePmWd = db.getWindsAloftTomorrow().get(9);
+            String twelvePmWs = db.getWindsAloftTomorrow().get(10);
+            String twelvePmWg = db.getWindsAloftTomorrow().get(11);
+            return new Answer("The wind direction tomorrow is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
         }
 
 
