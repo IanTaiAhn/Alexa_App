@@ -57,10 +57,8 @@ public class HerokuDBConnection {
     }
 
     public List<String> getWindsAloftToday() {
-//        log.info("Getting answers for " + intentName);
         JSoupScraper jSoupScraper = new JSoupScraper();
         WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
-//        System.out.println(windsAloft.getWindsAloftList().get(0).getDate());
 
         final List<String> windsData = new ArrayList<>();
         final String sql = "SELECT \"WindDirection\", \"WindSpeed\", \"WindGust\" FROM public.\"WindsAloft\"\n" +
@@ -70,6 +68,31 @@ public class HerokuDBConnection {
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, windsAloft.getWindsAloftList().get(0).getDate());
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    windsData.add(rs.getString("WindDirection"));
+                    windsData.add(rs.getString("WindSpeed"));
+                    windsData.add(rs.getString("WindGust"));
+                }
+            }
+            return windsData;
+        } catch (ClassNotFoundException|SQLException e) {
+            throw new RuntimeException("Failed to get answers", e);
+        }
+    }
+
+    public List<String> getWindsAloftTomorrow() {
+        JSoupScraper jSoupScraper = new JSoupScraper();
+        WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
+
+        final List<String> windsData = new ArrayList<>();
+        final String sql = "SELECT \"WindDirection\", \"WindSpeed\", \"WindGust\" FROM public.\"WindsAloft\"\n" +
+                "WHERE \"WindsAloftDate\" = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, windsAloft.getWindsAloftList().get(8).getDate());
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     windsData.add(rs.getString("WindDirection"));

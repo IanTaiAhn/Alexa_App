@@ -15,7 +15,8 @@ public enum AlexaIntent  {
     FREEFALL("Freefall"),
     SCRAPEWEB("ScrapeWeb"),
     TRUNCATEWINDS("TruncateWinds"),
-    TODAY("Today");
+    TODAY("Today"),
+    TOMORROW("Tomorrow");
 //    RandomEnum
 
     private final String intentName;

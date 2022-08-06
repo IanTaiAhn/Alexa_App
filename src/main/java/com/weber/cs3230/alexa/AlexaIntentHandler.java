@@ -43,17 +43,19 @@ public class AlexaIntentHandler {
         }
         if (intent.getIntentName() == "Today") {
             HerokuDBConnection db = new HerokuDBConnection();
-//            System.out.println(db.getWindsAloftToday());
-// 9 10 11 are the winds data at 12 pm for today.
             log.info("wind data for today has been uttered");
-//            log.info(String.valueOf(db.getWindsAloftToday().size()));
             String twelvePmWd = db.getWindsAloftToday().get(9);
             String twelvePmWs = db.getWindsAloftToday().get(10);
             String twelvePmWg = db.getWindsAloftToday().get(11);
-//            for (String el: db.getWindsAloftToday())    {
-//                log.info(el);
-//            }
-            return new Answer("The wind direction today is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind guts are " + twelvePmWg);
+            return new Answer("The wind direction today is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
+        }
+        if (intent.getIntentName() == "Tomorrow") {
+            HerokuDBConnection db = new HerokuDBConnection();
+            log.info("wind data for today has been uttered");
+            String twelvePmWd = db.getWindsAloftToday().get(9);
+            String twelvePmWs = db.getWindsAloftToday().get(10);
+            String twelvePmWg = db.getWindsAloftToday().get(11);
+            return new Answer("The wind direction today is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
         }
 
 
