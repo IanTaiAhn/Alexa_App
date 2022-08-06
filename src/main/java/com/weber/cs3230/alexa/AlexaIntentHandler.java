@@ -37,6 +37,7 @@ public class AlexaIntentHandler {
             System.out.println(db.insertWindsAloft());
 //          System.out.println(db.truncateTable());
             System.out.println("queries have been run");
+            return new Answer("Queries have run");
         }
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }
