@@ -29,15 +29,17 @@ public class AlexaIntentHandler {
          if (intent == null)    {
              return null;
          }
-        System.out.println("intent with method call " + intent.getIntentName());
-        System.out.println("intent that gets passed in " + intentString);
-        if (intent.getIntentName() == "WebScraper") {
+        if (intent.getIntentName() == "ScrapeWeb") {
             HerokuDBConnection db = new HerokuDBConnection();
-//          Runs my queries.
             System.out.println(db.insertWindsAloft());
-//          System.out.println(db.truncateTable());
-            System.out.println("queries have been run");
-            return new Answer("Queries have run");
+            log.info("Scraped web, and inserted into database");
+            return new Answer("Scraped web, and inserted into database");
+        }
+        if (intent.getIntentName() == "TruncateWinds") {
+            HerokuDBConnection db = new HerokuDBConnection();
+          System.out.println(db.truncateTable());
+            log.info("table has been truncated");
+            return new Answer("Table Truncated");
         }
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }
