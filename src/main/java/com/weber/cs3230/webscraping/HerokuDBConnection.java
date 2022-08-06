@@ -1,6 +1,8 @@
 package com.weber.cs3230.webscraping;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HerokuDBConnection {
 
@@ -10,11 +12,15 @@ public class HerokuDBConnection {
     private String dbUser = "ofzlwollcxbevm";
     private String dbPassword = "6c975cd29e840a0d2de16113c126d25d41e13287b15434bfbf98efb358a52784";
     public static void main(String[] args) {
-
-        HerokuDBConnection db = new HerokuDBConnection();
+//        HerokuDBConnection db = new HerokuDBConnection();
 //      Runs my queries.
 //        System.out.println(db.insertWindsAloft());
 //        System.out.println(db.truncateTable());
+
+        JSoupScraper jSoupScraper = new JSoupScraper();
+        WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
+        System.out.println(windsAloft.getWindsAloftList().get(0).getDate());
+        System.out.println(windsAloft.getListSize());
     }
     public boolean insertWindsAloft() {
         final String sql = "INSERT INTO public.\"WindsAloft\"(\"WindsAloftDate\", \"WindsAloftTime\", \"WindDirection\", \"WindSpeed\", \"WindGust\")\n" +
@@ -47,6 +53,33 @@ public class HerokuDBConnection {
             return true;
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException("Failed to run query in remotedb." , e);
+        }
+    }
+
+    public List<String> getWindsAloftToday() {
+//        log.info("Getting answers for " + intentName);
+        JSoupScraper jSoupScraper = new JSoupScraper();
+        WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
+//        System.out.println(windsAloft.getWindsAloftList().get(0).getDate());
+
+        final List<String> windsData = new ArrayList<>();
+        final String sql = "SELECT \"WindDirection\", \"WindSpeed\", \"WindGust\" FROM public.\"WindsAloft\"\n" +
+                "WHERE \"WindsAloftDate\" = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, windsAloft.getWindsAloftList().get(0).getDate());
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    windsData.add(rs.getString("WindDirection"));
+                    windsData.add(rs.getString("WindSpeed"));
+                    windsData.add(rs.getString("WindGust"));
+                }
+            }
+            return windsData;
+        } catch (ClassNotFoundException|SQLException e) {
+            throw new RuntimeException("Failed to get answers", e);
         }
     }
 
