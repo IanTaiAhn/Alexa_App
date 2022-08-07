@@ -11,12 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSoupScraper {
-    private ArrayList<WindsAloft> passedDataList = new ArrayList<>();
-    public static void main(String[] args) throws IOException {
-
-//        getScrapedDataList();
-    }
-
+//    private ArrayList<WindsAloft> passedDataList = new ArrayList<>();
     public ArrayList<WindsAloft> scrapeData() {
         try {
             Document page = Jsoup.connect("https://www.windfinder.com/forecast/erda_utah_usa").get();

@@ -5,23 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HerokuDBConnection {
-
     private String dbHost = "ec2-18-214-35-70.compute-1.amazonaws.com";
     private String dbPort = "5432";
     private String dbName = "d1auj72juq3fgq";
     private String dbUser = "ofzlwollcxbevm";
     private String dbPassword = "6c975cd29e840a0d2de16113c126d25d41e13287b15434bfbf98efb358a52784";
-    public static void main(String[] args) {
-//        HerokuDBConnection db = new HerokuDBConnection();
-//      Runs my queries.
-//        System.out.println(db.insertWindsAloft());
-//        System.out.println(db.truncateTable());
 
-        JSoupScraper jSoupScraper = new JSoupScraper();
-        WindsAloft windsAloft = new WindsAloft(jSoupScraper.scrapeData());
-        System.out.println(windsAloft.getWindsAloftList().get(0).getDate());
-        System.out.println(windsAloft.getListSize());
-    }
     public boolean insertWindsAloft() {
         final String sql = "INSERT INTO public.\"WindsAloft\"(\"WindsAloftDate\", \"WindsAloftTime\", \"WindDirection\", \"WindSpeed\", \"WindGust\")\n" +
                 "VALUES(?, ?, ?, ?, ?)";

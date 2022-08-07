@@ -21,7 +21,6 @@ public class AlexaIntentHandler {
         this.dbAnswerGenerator = dbAnswerGenerator;
     }
 
-    // alex enum intent for inserting into database.
     public Answer handleIntent(@PathVariable String intentString) throws NoAvailableAnswerException {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
         log.info("intentString that gets passed in: " + intentString);
@@ -44,20 +43,19 @@ public class AlexaIntentHandler {
         if (intent.getIntentName() == "Today") {
             HerokuDBConnection db = new HerokuDBConnection();
             log.info("wind data for today has been uttered");
-            String twelvePmWd = db.getWindsAloftToday().get(9);
-            String twelvePmWs = db.getWindsAloftToday().get(10);
-            String twelvePmWg = db.getWindsAloftToday().get(11);
+            String twelvePmWd = db.getWindsAloftToday().get(12);
+            String twelvePmWs = db.getWindsAloftToday().get(13);
+            String twelvePmWg = db.getWindsAloftToday().get(14);
             return new Answer("The wind direction today is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
         }
         if (intent.getIntentName() == "Tomorrow") {
             HerokuDBConnection db = new HerokuDBConnection();
             log.info("wind data for tomorrow has been uttered");
-            String twelvePmWd = db.getWindsAloftTomorrow().get(9);
-            String twelvePmWs = db.getWindsAloftTomorrow().get(10);
-            String twelvePmWg = db.getWindsAloftTomorrow().get(11);
+            String twelvePmWd = db.getWindsAloftTomorrow().get(12);
+            String twelvePmWs = db.getWindsAloftTomorrow().get(13);
+            String twelvePmWg = db.getWindsAloftTomorrow().get(14);
             return new Answer("The wind direction tomorrow is " + twelvePmWd + ", the wind speed is " + twelvePmWs + ", the wind gusts are " + twelvePmWg);
         }
-
 
         return new Answer(dbAnswerGenerator.getAnswerText(intentString));
     }

@@ -17,18 +17,13 @@ public enum AlexaIntent  {
     TRUNCATEWINDS("TruncateWinds"),
     TODAY("Today"),
     TOMORROW("Tomorrow");
-//    RandomEnum
-
     private final String intentName;
-
     public String getIntentName() {
         return intentName;
     }
-
     AlexaIntent(String intentName) {
         this.intentName = intentName;
     }
-
     public static AlexaIntent getIntentFromString(String intentString) {
         return Arrays.stream(AlexaIntent.values())
                 .filter(s -> s.intentName.equalsIgnoreCase(intentString))
